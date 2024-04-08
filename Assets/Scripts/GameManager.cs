@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,15 +10,26 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] AllGems => _allGems;
 
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager instance;
+
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject newGems = Instantiate(_allGems[0]);
+            newGems.transform.position = transform.position;
+
+            GemsFusion newGemsScript = newGems.GetComponent<GemsFusion>();
+            newGemsScript.gemsIndex = 0;
+        }
     }
 }
