@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 public class GemsManager : MonoBehaviour
 {
-    public GameManager _gameManager;
     private int _nextGem;
     private GameObject _currentGem;
     private Vector2 _tapPos;
@@ -27,23 +26,25 @@ public class GemsManager : MonoBehaviour
     [Button]
     private void NextGem()
     {
-        _nextGem = Random.Range(0, _gameManager.AllGems.Length);
+        _nextGem = Random.Range(0, 4);
         Debug.Log("Next gem is : " + _nextGem);
     }
 
 
     public void OnTouchDrag(InputAction.CallbackContext ctx)
     {
-
-        _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
+            _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
         if (ctx.started)
         {
             //Debug.Log("INSTANTIATE");
-            _currentGem = Instantiate(_gameManager.AllGems[_nextGem], new Vector2(_tapPos.x, _spawnPoint.position.y), Quaternion.identity);
-            _currentGem.GetComponent<Rigidbody2D>().gravityScale = 0;
+            _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], new Vector2(_tapPos.x, _spawnPoint.position.y), Quaternion.identity);
+            if (_currentGem == null) return;
+            //_currentGem.GetComponent<Rigidbody2D>().gravityScale = 0;
+            _currentGem.GetComponent<Rigidbody>().useGravity = false;
         }
         else if (ctx.performed) 
         {
+            if (_currentGem == null) return;
             _tapPos = Camera.main.ScreenToWorldPoint(new Vector3(ctx.ReadValue<Vector2>().x, 0f, 10f));
             _tapPos.y = _spawnPoint.position.y;
             //Debug.Log(tapPos);
@@ -51,8 +52,9 @@ public class GemsManager : MonoBehaviour
         }
         else if(ctx.canceled)
         {
+            if (_currentGem == null) return;
             Debug.Log("DROP");
-            _currentGem.GetComponent<Rigidbody2D>().gravityScale = 1;
+            _currentGem.GetComponent<Rigidbody>().useGravity = true;
             NextGem();
         }
     }
