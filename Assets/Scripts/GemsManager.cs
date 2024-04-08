@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using NaughtyAttributes;
 public class GemsManager : MonoBehaviour
 {
     public GameManager _gameManager;
@@ -17,6 +17,7 @@ public class GemsManager : MonoBehaviour
         
     }
 
+    [Button]
     private void NextGem()
     {
         int nextGem = Random.Range(0, _gameManager.AllGems.Length);
