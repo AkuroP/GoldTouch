@@ -147,3 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemsIndex: 4
+  _rb: {fileID: 240876746302172155, guid: 41b3b3fa4154bb041a4e4c434477f7eb, type: 3}
+  _explosionForce: 0.5
+  _explosionRadius: 0.5

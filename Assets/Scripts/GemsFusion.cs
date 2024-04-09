@@ -6,6 +6,10 @@ using UnityEngine;
 public class GemsFusion : MonoBehaviour
 {
     public int gemsIndex;
+    public Rigidbody _rb;
+
+    public float _explosionForce;
+    public float _explosionRadius;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,6 +29,8 @@ public class GemsFusion : MonoBehaviour
                 GameObject nextGems = Instantiate(GameManager.instance.AllGems[gemsIndex + 1]);
                 nextGems.transform.position = transform.position;
                 
+                nextGems.GetComponent<GemsFusion>()._rb.AddExplosionForce(_explosionForce, nextGems.transform.position, _explosionRadius);
+
                 gameObject.SetActive(false);
                 Destroy(gameObject);
 
