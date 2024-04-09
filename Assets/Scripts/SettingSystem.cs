@@ -50,12 +50,12 @@ public class SettingSystem : MonoBehaviour
     {
         if (animationForward)
         {
-            animator.SetBool("IsOn", true);
+            animator.SetBool("IsOn", false);
             animationForward = false;
         }
         else
         {
-            animator.SetBool("IsOn", false);
+            animator.SetBool("IsOn", true);
             animationForward = true;
         }
         
