@@ -11,7 +11,13 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
     
     private Dictionary<SoundState, List<Sound>> DicoActualSound = new Dictionary<SoundState, List<Sound>>();
-    
+
+    void Start()
+    {
+        // Garantit que ce GameObject ne sera pas détruit lorsque la scène est changée
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Awake()
     {
        foreach (Sound s in sounds)
