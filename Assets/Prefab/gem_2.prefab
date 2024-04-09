@@ -102,6 +102,7 @@ MonoBehaviour:
   _rb: {fileID: 8053067144519952771}
   _explosionForce: 0.5
   _explosionRadius: 0.5
+  fusionScore: 20
 --- !u!54 &8053067144519952771
 Rigidbody:
   m_ObjectHideFlags: 0

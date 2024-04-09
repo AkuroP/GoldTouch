@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,6 +13,14 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    [SerializeField] private int scoreToBeat;
+    [SerializeField] private GameObject winScreen;
+
+    [HideInInspector]public int actualScore;
+
+    public TextMeshProUGUI textScoreToBeat;
+    public TextMeshProUGUI textActualScore;
+
     private void Awake()
     {
         if (instance == null)
@@ -20,6 +29,11 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    private void Start()
+    {
+        textScoreToBeat.text = "Score To Beat : " + scoreToBeat.ToString();
+    }
+
 
     void Update()
     {
@@ -31,5 +45,13 @@ public class GameManager : MonoBehaviour
             GemsFusion newGemsScript = newGems.GetComponent<GemsFusion>();
             newGemsScript.gemsIndex = 0;
         }
+        if(actualScore > scoreToBeat)
+        {
+            Debug.Log("You win");
+            winScreen.SetActive(true);
+        }
+        textActualScore.text = "My score : " + actualScore.ToString();
+        Debug.Log(actualScore);
+        Debug.Log(scoreToBeat);
     }
 }
