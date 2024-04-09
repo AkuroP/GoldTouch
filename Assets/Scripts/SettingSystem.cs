@@ -27,7 +27,7 @@ public class SettingSystem : MonoBehaviour
     bool isVibration = true;
 
 
-    public string exposedParameterName = "SFX";
+    private string exposedParameterName = "SFX";
 
     private float sfxBaseVolume;
 

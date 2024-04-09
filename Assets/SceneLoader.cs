@@ -11,9 +11,13 @@ public class SceneLoader : MonoBehaviour
     [Scene]
     public string levelToLoad;
 
+    [SerializeField] private int nbStarsNeeded;
 
     public void LoadScene()
     {
-        SceneManager.LoadScene(levelToLoad);
+        //if(currentStarsCount > nbStarsNeeded)
+        //{
+            SceneManager.LoadScene(levelToLoad);
+        //}
     }
 }
