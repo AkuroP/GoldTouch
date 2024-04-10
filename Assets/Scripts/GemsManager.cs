@@ -4,7 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine.UI;
 public class GemsManager : MonoBehaviour
 {
@@ -32,7 +32,7 @@ public class GemsManager : MonoBehaviour
     {
         _nextGem = Random.Range(0, 4);
         _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
-        _currentGemRb = _currentGem.GetComponent<Rigidbody>();
+        _currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
         _currentGemRb.isKinematic = true;
         _cd = _cooldown;
 
@@ -44,6 +44,7 @@ public class GemsManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.Win) return;
         if (_canPlay) return;
         if (_cd > 0) _cd -= Time.deltaTime;
         else
@@ -57,10 +58,12 @@ public class GemsManager : MonoBehaviour
 
     private void NextGem()
     {
+        if (GameManager.instance.Win) return;
+
         //_affichageGems[_nextGem].SetActive(false);
         _cd = _cooldown;
         _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
-        _currentGemRb = _currentGem.GetComponent<Rigidbody>();
+        _currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
         _currentGemRb.isKinematic = true;
         _nextGem = Random.Range(0, 4);
         _nextImage.sprite = _gemsSprites[_nextGem];
@@ -72,6 +75,8 @@ public class GemsManager : MonoBehaviour
 
     public void OnTouchDrag(InputAction.CallbackContext ctx)
     {
+        if (GameManager.instance.Win) return;
+
         if (!_canPlay) return;
         
         _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
@@ -90,7 +95,7 @@ public class GemsManager : MonoBehaviour
         else if(ctx.canceled)
         {
             if (_currentGem == null) return;
-            Debug.Log("DROP");
+            //Debug.Log("DROP");
             _currentGemRb.isKinematic = false;
             _currentGem = null;
             GameManager.instance.nbPlay += 1;
@@ -99,8 +104,4 @@ public class GemsManager : MonoBehaviour
         
     }
 
-    private void DragGem()
-    {
-
-    }
 }

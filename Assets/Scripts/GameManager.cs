@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textActualScore;
 
     bool win;
+
+    public bool Win => win;
+
+
+    public GameObject _fx;
+
     public static GameManager instance;
 
 
@@ -37,7 +43,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        textScoreToBeat.text = "Score To Beat : " + scoreToBeat.ToString();
+        textScoreToBeat.text = "Money to mine :\n" + scoreToBeat.ToString() + " ♦";
     }
 
 
@@ -54,7 +60,7 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        textActualScore.text = "My score : " + actualScore.ToString();
+        textActualScore.text = "Your money :\n" + actualScore.ToString() + " ♦";
         
     }
 
@@ -145,5 +151,15 @@ public class GameManager : MonoBehaviour
         }
         return starsToAdd;
         
+    }
+
+    public IEnumerator IncreaseScore(int score)
+    {
+        for(int i = 0; i < score; i++)
+        {
+            yield return new WaitForSeconds(.01f);
+            actualScore += 1;
+        }
+
     }
 }
