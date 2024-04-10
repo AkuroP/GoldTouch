@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject winScreen;
 
     [HideInInspector]public int actualScore;
+    [HideInInspector]public int nbPlay;
 
     public TextMeshProUGUI textScoreToBeat;
     public TextMeshProUGUI textActualScore;
