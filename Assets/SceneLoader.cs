@@ -15,9 +15,9 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene()
     {
-        //if(currentStarsCount > nbStarsNeeded)
-        //{
+        if(SettingSystem.instance.nbStars >= nbStarsNeeded)
+        {
             SceneManager.LoadScene(levelToLoad);
-        //}
+        }
     }
 }

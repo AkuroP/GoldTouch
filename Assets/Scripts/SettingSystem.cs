@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,9 @@ public class SettingSystem : MonoBehaviour
     [Scene]
     public string sceneToKeepObjects;
 
+    [Scene]
+    public string hideInMenu;
+
     //[Scene]
     //public string levelToLoad;
 
@@ -31,8 +35,21 @@ public class SettingSystem : MonoBehaviour
 
     private float sfxBaseVolume;
 
+    public int nbStars;
+    public TextMeshProUGUI nbStarsText;
+    [SerializeField] private GameObject starsVisuel;
 
-    
+    public static SettingSystem instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+    }
+
 
 
 
@@ -43,12 +60,9 @@ public class SettingSystem : MonoBehaviour
             Debug.LogError("AudioMixer non défini dans le script MixerVolumeGetter !");
             return;
         }
-        // Garantit que ce GameObject ne sera pas détruit lorsque la scène est changée
         DontDestroyOnLoad(gameObject);
 
-        // Obtenez le volume actuel de l'AudioMixer
         sfxBaseVolume = GetMixerVolume();
-        Debug.Log("Volume de l'AudioMixer: " + sfxBaseVolume);
     }
 
     private void Update()
@@ -61,6 +75,14 @@ public class SettingSystem : MonoBehaviour
         {
             EnableObjects();
         }
+        if (SceneManager.GetActiveScene().name == hideInMenu)
+        {
+            UnHideObjects();
+        }
+        
+        
+        nbStarsText.text = nbStars.ToString();
+
     }
     float GetMixerVolume()
     {
@@ -88,12 +110,7 @@ public class SettingSystem : MonoBehaviour
         }
         
     }
-    
-    //public void LoadLevel()
-    //{
-    //    SceneManager.LoadScene(levelToLoad);
-    //}
-
+ 
     public void QuitGame()
     {
         Application.Quit();
@@ -121,7 +138,6 @@ public class SettingSystem : MonoBehaviour
 
     }
 
-    // Fonction pour désactiver les vibrations
     public void DisableMusic()
     {
         audioManager.Paused(SoundState.MENU);        
@@ -132,7 +148,6 @@ public class SettingSystem : MonoBehaviour
         audioMixer.SetFloat(exposedParameterName, sfxBaseVolume);
     }
 
-    // Fonction pour désactiver les vibrations
     public void DisableSFX()
     {
         audioMixer.SetFloat(exposedParameterName, -80f);
@@ -143,7 +158,6 @@ public class SettingSystem : MonoBehaviour
 
     void DisableObjects()
     {
-        // Désactive les objets dans la scène actuelle
         GameObject[] objectsToDisable = GameObject.FindGameObjectsWithTag("ObjectsToDisable");
         foreach (GameObject obj in objectsToDisable)
         {
@@ -152,12 +166,24 @@ public class SettingSystem : MonoBehaviour
     }
     void EnableObjects()
     {
-        // Désactive les objets dans la scène actuelle
         GameObject[] objectsToDisable = GameObject.FindGameObjectsWithTag("ObjectsToDisable");
         foreach (GameObject obj in objectsToDisable)
         {
             obj.SetActive(true);
         }
+    }
+
+    //void HideObjects()
+    //{
+    //    GameObject[] objectsToHide = GameObject.FindGameObjectsWithTag("ObjectsToHide");
+    //    foreach (GameObject obj in objectsToHide)
+    //    {
+    //        obj.SetActive(false);
+    //    }
+    //}
+    void UnHideObjects()
+    {
+        starsVisuel.SetActive(true);
     }
 
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Gems
   - ObjectsToDisable
+  - ObjectsToHide
   layers:
   - Default
   - TransparentFX

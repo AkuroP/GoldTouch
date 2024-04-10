@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] AllGems => _allGems;
 
-    public static GameManager instance;
 
     [SerializeField] private int scoreToBeat;
     [SerializeField] private GameObject winScreen;
@@ -19,8 +18,13 @@ public class GameManager : MonoBehaviour
     [HideInInspector]public int actualScore;
     [HideInInspector]public int nbPlay;
 
+
+    [SerializeField] private int[] countForStars = new int[2];
     public TextMeshProUGUI textScoreToBeat;
     public TextMeshProUGUI textActualScore;
+
+    bool win;
+    public static GameManager instance;
 
     private void Awake()
     {
@@ -38,21 +42,45 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameObject newGems = Instantiate(_allGems[0]);
-            newGems.transform.position = transform.position;
-
-            GemsFusion newGemsScript = newGems.GetComponent<GemsFusion>();
-            newGemsScript.gemsIndex = 0;
-        }
         if(actualScore > scoreToBeat)
         {
-            Debug.Log("You win");
-            winScreen.SetActive(true);
+            if (!win)
+            {
+                win = true;
+                Debug.Log("You win");
+                winScreen.SetActive(true);
+                StarsIncrementation();
+                SettingSystem.instance.nbStars += StarsIncrementation();
+            }
+            
         }
         textActualScore.text = "My score : " + actualScore.ToString();
-        Debug.Log(actualScore);
-        Debug.Log(scoreToBeat);
+        
+    }
+
+
+    public int StarsIncrementation()
+    {
+        int starsToAdd = 0;
+        if (nbPlay < countForStars[0])
+        {
+            Debug.Log("3 stars");
+            starsToAdd = 3;
+            return starsToAdd;
+
+        }
+        else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
+        {
+            Debug.Log("2 stars");
+            starsToAdd = 2;
+            return starsToAdd;
+
+        }
+        else
+        {
+            Debug.Log("1 star");
+            starsToAdd = 1;
+            return starsToAdd;
+        }
     }
 }
