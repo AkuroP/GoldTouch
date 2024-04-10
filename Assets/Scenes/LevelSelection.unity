@@ -600,7 +600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ENDLESS !
+  m_text: ENDLESS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -958,7 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c81ef18a107bca43917f591bbaacfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: Proto
+  levelToLoad: MainMenu
   nbStarsNeeded: 4
   levelNumberLoaded: 3
   audioManager: {fileID: 0}
@@ -2064,7 +2064,7 @@ GameObject:
   - component: {fileID: 842457826}
   m_Layer: 5
   m_Name: PlayButton
-  m_TagString: ObjectsToDisable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

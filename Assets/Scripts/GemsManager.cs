@@ -7,9 +7,12 @@ using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 public class GemsManager : MonoBehaviour
 {
     private int _nextGem;
+
+    [SerializeField]
     private GameObject _currentGem;
     private Rigidbody _currentGemRb;
     private Vector2 _tapPos;
@@ -56,13 +59,13 @@ public class GemsManager : MonoBehaviour
 
     }
 
-    private void NextGem()
+    public void NextGem()
     {
         if (GameManager.instance.Win) return;
 
         //_affichageGems[_nextGem].SetActive(false);
         _cd = _cooldown;
-        _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
+        if(_currentGem == null) _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
         _currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
         _currentGemRb.isKinematic = true;
         _nextGem = Random.Range(0, 4);
@@ -78,27 +81,35 @@ public class GemsManager : MonoBehaviour
         if (GameManager.instance.Win) return;
 
         if (!GameManager.instance.CanPlay) return;
+        if (_currentGem == null) return;
         
         _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
+        if(ctx.started)
+        {
+            if (GameManager.instance.CanPlay && _cd <= 0 && !GameManager.instance._inCombo) _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
+            else return;
+        }
         if (ctx.performed)
         {
-            if (_currentGem == null) return;
             _tapPos = Camera.main.ScreenToWorldPoint(new Vector3(ctx.ReadValue<Vector2>().x, 0f, 10f));
             _tapPos.y = _spawnPoint.position.y;
-            //Debug.Log(tapPos);
+
+            Debug.Log(_tapPos);
 
 
-            if (_tapPos.x > _wallLeft.position.x && _tapPos.x < _wallRight.position.x) _currentGem.transform.position = new Vector2(_tapPos.x, _tapPos.y);
-            else if (_tapPos.x <= _wallLeft.position.x) _currentGem.transform.position = _wallLeft.position;
+            /*if (_tapPos.x > _wallLeft.position.x && _tapPos.x < _wallRight.position.x)*/ _currentGem.transform.position = new Vector2(_tapPos.x, _tapPos.y);
+            if (_tapPos.x <= _wallLeft.position.x) _currentGem.transform.position = _wallLeft.position;
             else if (_tapPos.x >= _wallRight.position.x) _currentGem.transform.position = _wallRight.position;
         }
-        else if (ctx.canceled)
+        if (ctx.canceled)
         {
             if (_currentGem == null) return;
             //Debug.Log("DROP");
+            if(_currentGemRb == null)_currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
             _currentGemRb.isKinematic = false;
-            _currentGem = null;
+            _currentGemRb.AddTorque(new Vector3(1, 0, 1), ForceMode.Impulse);
             GameManager.instance.nbPlay += 1;
+            _currentGem = null;
             if(GameManager.instance.CanPlay) GameManager.instance.CanPlay = false;
         }
         

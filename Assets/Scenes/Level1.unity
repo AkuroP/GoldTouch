@@ -457,6 +457,8 @@ MonoBehaviour:
   _messages:
   - {fileID: 3451199271453592637, guid: caf72536a17bc9f42987d0e2532b975d, type: 3}
   - {fileID: 407090117450160414, guid: 1c10d147aad13a64ca4c6d3bdd6cbeb9, type: 3}
+  _canPlay: 1
+  _gemsManager: {fileID: 760444478}
 --- !u!1 &611993699
 GameObject:
   m_ObjectHideFlags: 0

@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     private bool _canPlay = true;
     public bool CanPlay {  get { return _canPlay; } set { _canPlay = value; } }
 
+    [SerializeField]
+    private GemsManager _gemsManager;
+
     private void Awake()
     {
         if (instance == null)
@@ -72,7 +75,11 @@ public class GameManager : MonoBehaviour
             else
             {
                 _canPlay = false;
-                if (_combo < 2) _canPlay = true;
+                if (_combo < 2)
+                {
+                    _canPlay = true;
+                    _gemsManager.NextGem();
+                }
                 else if (_combo >= 2 && _combo < 5) Instantiate(_messages[0], Vector3.zero, Quaternion.identity);
                 else if(_combo >= 5) Instantiate(_messages[1], Vector3.zero, Quaternion.identity);
                 _combo = 0;
