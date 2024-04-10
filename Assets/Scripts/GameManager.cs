@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textActualScore;
 
     bool win;
+
+    public bool Win => win;
+
+
+    public GameObject _fx;
+
     public static GameManager instance;
 
 

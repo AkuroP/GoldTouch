@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -143,6 +144,11 @@ public class SettingSystem : MonoBehaviour
         Handheld.Vibrate();
         isVibration = true;
         Debug.Log("Vibration activée");
+    }
+
+    public void Vibrate()
+    {
+        if(isVibration) Handheld.Vibrate();
     }
 
     // Fonction pour désactiver les vibrations
