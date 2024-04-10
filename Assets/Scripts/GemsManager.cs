@@ -67,7 +67,7 @@ public class GemsManager : MonoBehaviour
         _cd = _cooldown;
         if(_currentGem == null) _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
         _currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
-        _currentGemRb.isKinematic = true;
+        if(!_currentGemRb.isKinematic) _currentGemRb.isKinematic = true;
         _nextGem = Random.Range(0, 4);
         _nextImage.sprite = _gemsSprites[_nextGem];
 
@@ -81,14 +81,14 @@ public class GemsManager : MonoBehaviour
         if (GameManager.instance.Win) return;
 
         if (!GameManager.instance.CanPlay) return;
-        if (_currentGem == null) return;
-        
-        _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
         if(ctx.started)
         {
             if (GameManager.instance.CanPlay && _cd <= 0 && !GameManager.instance._inCombo) _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
             else return;
         }
+        if (_currentGem == null) return;
+        
+        _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
         if (ctx.performed)
         {
             _tapPos = Camera.main.ScreenToWorldPoint(new Vector3(ctx.ReadValue<Vector2>().x, 0f, 10f));
@@ -107,7 +107,7 @@ public class GemsManager : MonoBehaviour
             //Debug.Log("DROP");
             if(_currentGemRb == null)_currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
             _currentGemRb.isKinematic = false;
-            _currentGemRb.AddTorque(new Vector3(1, 0, 1), ForceMode.Impulse);
+            _currentGemRb.AddRelativeTorque(new Vector3(0, 1, 0), ForceMode.Impulse);
             GameManager.instance.nbPlay += 1;
             _currentGem = null;
             if(GameManager.instance.CanPlay) GameManager.instance.CanPlay = false;

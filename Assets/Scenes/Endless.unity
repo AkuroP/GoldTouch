@@ -587,6 +587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 659633959}
   - component: {fileID: 659633958}
+  - component: {fileID: 659633960}
   m_Layer: 0
   m_Name: mine_cart
   m_TagString: Untagged
@@ -664,6 +665,27 @@ Transform:
   - {fileID: 1249891405}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &659633960
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659633957}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.12, y: 3.48, z: 0.16193439}
+  m_Center: {x: 0, y: 0, z: 0.6131535}
 --- !u!1 &666334751
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,6 +976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549a3f7b0a6b6354f9d9a83946f9e15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentGem: {fileID: 0}
   _spawnPoint: {fileID: 761118845}
   _cooldown: 1
   _wallLeft: {fileID: 722191029}
