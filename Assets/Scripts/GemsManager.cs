@@ -66,6 +66,7 @@ public class GemsManager : MonoBehaviour
                 Debug.Log("DROP");
                 _currentGem.GetComponent<Rigidbody>().useGravity = true;
                 _currentGem = null;
+                GameManager.instance.nbPlay += 1;
                 NextGem();
             }
         }
