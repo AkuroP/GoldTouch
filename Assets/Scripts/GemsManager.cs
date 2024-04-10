@@ -13,10 +13,13 @@ public class GemsManager : MonoBehaviour
     private Transform _spawnPoint;
     public float _cooldown;
     private float _cd;
+
+    public GameObject[] _affichageGems;
     // Start is called before the first frame update
     void Start()
     {
         _nextGem = Random.Range(0, 4);
+        //_affichageGems[_nextGem].SetActive(true);
     }
 
     // Update is called once per frame
@@ -28,9 +31,11 @@ public class GemsManager : MonoBehaviour
     [Button]
     private void NextGem()
     {
+        //_affichageGems[_nextGem].SetActive(false);
         _cd = _cooldown;
         _nextGem = Random.Range(0, 4);
-        Debug.Log("Next gem is : " + _nextGem);
+        //_affichageGems[_nextGem].SetActive(true);
+        //Debug.Log("Next gem is : " + _nextGem);
     }
 
 
