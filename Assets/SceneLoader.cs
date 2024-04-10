@@ -15,6 +15,9 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] private int levelNumberLoaded;
 
+    [SerializeField] private AudioManager audioManager;
+
+
     public void LoadScene()
     {
         if(SettingSystem.instance.nbStars >= nbStarsNeeded)

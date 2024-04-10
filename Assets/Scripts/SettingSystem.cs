@@ -53,6 +53,7 @@ public class SettingSystem : MonoBehaviour
     public int nbStars;
     public TextMeshProUGUI nbStarsText;
     [SerializeField] private GameObject starsVisuel;
+    [SerializeField] private GameObject homeButton;
 
     public static SettingSystem instance;
 
@@ -136,6 +137,10 @@ public class SettingSystem : MonoBehaviour
     {
         Application.Quit();
     }
+    public void Retry()
+    {
+        SceneManager.LoadScene("LevelSelection");
+    }
 
     public void EnableVibration()
     {
@@ -197,6 +202,7 @@ public class SettingSystem : MonoBehaviour
     void UnHideObjects()
     {
         starsVisuel.SetActive(true);
+        homeButton.SetActive(true);
     }
 
 

@@ -9,5 +9,6 @@ public enum SoundState
     DEATH,
     DAMAGE,
     MUSIC,
-    SFX
+    SFX,
+    BUTTON
 }
