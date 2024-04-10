@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2308943716748072968}
   - component: {fileID: 5371109445269763183}
   - component: {fileID: 4602409443531630378}
+  - component: {fileID: 8878292685588865791}
   m_Layer: 0
   m_Name: gem_9
   m_TagString: Gems
@@ -42,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4611042934428219211}
-  m_Mesh: {fileID: -6201057092111474020, guid: 26c891f5a8d8e6547a9a7833acd81cb7, type: 3}
+  m_Mesh: {fileID: -6201057092111474020, guid: cfc102196882bae409bb55dd4b62dd72, type: 3}
 --- !u!23 &2308943716748072968
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -129,3 +130,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 88
   m_CollisionDetection: 0
+--- !u!136 &8878292685588865791
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4611042934428219211}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25216445
+  m_Height: 0.6580705
+  m_Direction: 1
+  m_Center: {x: -0.00005292892, y: 0.00015239416, z: 0}
