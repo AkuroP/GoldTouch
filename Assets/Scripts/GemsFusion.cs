@@ -31,7 +31,11 @@ public class GemsFusion : MonoBehaviour
                 Destroy((collision.transform.root.gameObject));
                 GameObject nextGems = Instantiate(GameManager.instance.AllGems[gemsIndex + 1]);
                 nextGems.transform.position = transform.position;
-                
+
+                GameManager.instance._combo += 1;
+                GameManager.instance._inCombo = true;
+                GameManager.instance.ResetComboTimer();
+
                 GameManager.instance.StartCoroutine(GameManager.instance.IncreaseScore(fusionScore));
                 nextGems.GetComponentInChildren<GemsFusion>()._rb.AddExplosionForce(_explosionForce, nextGems.transform.position, _explosionRadius);
                 Instantiate(GameManager.instance._fx, nextGems.transform.position, Quaternion.identity);

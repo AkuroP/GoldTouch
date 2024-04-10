@@ -17,7 +17,6 @@ public class GemsManager : MonoBehaviour
     private Transform _spawnPoint;
     public float _cooldown = 1f;
     private float _cd;
-    private bool _canPlay = true;
 
     [Foldout("Wall"), SerializeField]
     private Transform _wallLeft;
@@ -46,12 +45,12 @@ public class GemsManager : MonoBehaviour
     void Update()
     {
         if (GameManager.instance.Win) return;
-        if (_canPlay) return;
+        if (GameManager.instance.CanPlay) return;
         if (_cd > 0) _cd -= Time.deltaTime;
         else
         {
             NextGem();
-            _canPlay = true;
+            GameManager.instance.CanPlay = true;
         }
 
 
@@ -78,7 +77,7 @@ public class GemsManager : MonoBehaviour
     {
         if (GameManager.instance.Win) return;
 
-        if (!_canPlay) return;
+        if (!GameManager.instance.CanPlay) return;
         
         _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
         if (ctx.performed)
@@ -100,7 +99,7 @@ public class GemsManager : MonoBehaviour
             _currentGemRb.isKinematic = false;
             _currentGem = null;
             GameManager.instance.nbPlay += 1;
-            if(_canPlay)_canPlay = false;
+            if(GameManager.instance.CanPlay) GameManager.instance.CanPlay = false;
         }
         
     }

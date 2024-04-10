@@ -32,6 +32,18 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public int _combo;
+
+    public bool _inCombo = false;
+    public float _comboMaxTimer = 1f;
+    private float _comboTimer;
+
+    [SerializeField]
+    private GameObject[] _messages;
+
+    [SerializeField]
+    private bool _canPlay = true;
+    public bool CanPlay {  get { return _canPlay; } set { _canPlay = value; } }
 
     private void Awake()
     {
@@ -44,11 +56,32 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         textScoreToBeat.text = "Money to mine :\n" + scoreToBeat.ToString() + " ♦";
+        ResetComboTimer();
     }
 
+    public void ResetComboTimer() => _comboTimer = _comboMaxTimer;
+    
 
     void Update()
     {
+        textActualScore.text = "Your money :\n" + actualScore + " ♦";
+
+        if(_inCombo)
+        {
+            if (_comboTimer > 0) _comboTimer -= Time.deltaTime;
+            else
+            {
+                _canPlay = false;
+                if (_combo < 2) _canPlay = true;
+                else if (_combo >= 2 && _combo < 5) Instantiate(_messages[0], Vector3.zero, Quaternion.identity);
+                else if(_combo >= 5) Instantiate(_messages[1], Vector3.zero, Quaternion.identity);
+                _combo = 0;
+                _inCombo = false;
+            }
+
+        }
+
+        if (scoreToBeat <= -1) return;
         if(actualScore >= scoreToBeat)
         {
             if (!win)
@@ -60,7 +93,6 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        textActualScore.text = "Your money :\n" + actualScore + " ♦";   
     }
 
     public IEnumerator IncreaseScore(int score)
@@ -75,6 +107,7 @@ public class GameManager : MonoBehaviour
 
     public int StarsIncrementation()
     {
+
         int starsToAdd = 0;
         if (SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel != 0)
         {

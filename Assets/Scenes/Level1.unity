@@ -451,6 +451,12 @@ MonoBehaviour:
   textScoreToBeat: {fileID: 1804679142}
   textActualScore: {fileID: 666334753}
   _fx: {fileID: 3193864383826838676, guid: adc9c3e4b1004bd4b8e6f92eb59f40b1, type: 3}
+  _combo: 0
+  _inCombo: 0
+  _comboMaxTimer: 2
+  _messages:
+  - {fileID: 3451199271453592637, guid: caf72536a17bc9f42987d0e2532b975d, type: 3}
+  - {fileID: 407090117450160414, guid: 1c10d147aad13a64ca4c6d3bdd6cbeb9, type: 3}
 --- !u!1 &611993699
 GameObject:
   m_ObjectHideFlags: 0

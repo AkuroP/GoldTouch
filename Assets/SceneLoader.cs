@@ -20,7 +20,9 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene()
     {
-        if(SettingSystem.instance.nbStars >= nbStarsNeeded)
+        if(nbStarsNeeded <= -1) SceneManager.LoadScene(levelToLoad);
+
+        if (SettingSystem.instance.nbStars >= nbStarsNeeded)
         {
             SceneManager.LoadScene(levelToLoad);
             SettingSystem.instance.levelNumber = levelNumberLoaded - 1;
