@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textScoreToBeat;
     public TextMeshProUGUI textActualScore;
 
-    bool win;
+    private bool win;
 
     public bool Win => win;
 
@@ -60,10 +60,18 @@ public class GameManager : MonoBehaviour
             }
             
         }
-        textActualScore.text = "Your money :\n" + actualScore.ToString() + " ♦";
-        
+        textActualScore.text = "Your money :\n" + actualScore + " ♦";   
     }
 
+    public IEnumerator IncreaseScore(int score)
+    {
+        for (int i = 0; i < score; i++)
+        {
+            yield return new WaitForSeconds(.03f);
+            actualScore += 1;
+        }
+
+    }
 
     public int StarsIncrementation()
     {
@@ -153,13 +161,4 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public IEnumerator IncreaseScore(int score)
-    {
-        for(int i = 0; i < score; i++)
-        {
-            yield return new WaitForSeconds(.01f);
-            actualScore += 1;
-        }
-
-    }
 }

@@ -32,11 +32,11 @@ public class GemsFusion : MonoBehaviour
                 GameObject nextGems = Instantiate(GameManager.instance.AllGems[gemsIndex + 1]);
                 nextGems.transform.position = transform.position;
                 
-                StartCoroutine(GameManager.instance.IncreaseScore(fusionScore));
+                GameManager.instance.StartCoroutine(GameManager.instance.IncreaseScore(fusionScore));
                 nextGems.GetComponentInChildren<GemsFusion>()._rb.AddExplosionForce(_explosionForce, nextGems.transform.position, _explosionRadius);
-                
                 Instantiate(GameManager.instance._fx, nextGems.transform.position, Quaternion.identity);
-                //SettingSystem.instance.Vibrate();
+                
+                if(SettingSystem.instance != null) SettingSystem.instance.Vibrate();
 
                 transform.root.gameObject.SetActive(false);
                 Destroy(transform.root.gameObject);

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine.UI;
+using UnityEditor;
 public class GemsManager : MonoBehaviour
 {
     private int _nextGem;
@@ -80,26 +81,26 @@ public class GemsManager : MonoBehaviour
         if (!_canPlay) return;
         
         _tapPos = Camera.main.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
-        if (ctx.performed) 
+        if (ctx.performed)
         {
             if (_currentGem == null) return;
             _tapPos = Camera.main.ScreenToWorldPoint(new Vector3(ctx.ReadValue<Vector2>().x, 0f, 10f));
             _tapPos.y = _spawnPoint.position.y;
             //Debug.Log(tapPos);
-           
+
 
             if (_tapPos.x > _wallLeft.position.x && _tapPos.x < _wallRight.position.x) _currentGem.transform.position = new Vector2(_tapPos.x, _tapPos.y);
-            else if(_tapPos.x <= _wallLeft.position.x) _currentGem.transform.position = _wallLeft.position;
-            else if(_tapPos.x >= _wallRight.position.x) _currentGem.transform.position = _wallRight.position;
+            else if (_tapPos.x <= _wallLeft.position.x) _currentGem.transform.position = _wallLeft.position;
+            else if (_tapPos.x >= _wallRight.position.x) _currentGem.transform.position = _wallRight.position;
         }
-        else if(ctx.canceled)
+        else if (ctx.canceled)
         {
             if (_currentGem == null) return;
             //Debug.Log("DROP");
             _currentGemRb.isKinematic = false;
             _currentGem = null;
             GameManager.instance.nbPlay += 1;
-            _canPlay = false;
+            if(_canPlay)_canPlay = false;
         }
         
     }

@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemsIndex: 8
   _rb: {fileID: 4678877044324248278}
-  _explosionForce: 0.5
+  _explosionForce: 0.3
   _explosionRadius: 0.5
   fusionScore: 90
 --- !u!54 &4678877044324248278
