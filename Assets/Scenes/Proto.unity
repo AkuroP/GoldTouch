@@ -424,6 +424,7 @@ MonoBehaviour:
   winScreen: {fileID: 2147041210}
   actualScore: 0
   nbPlay: 0
+  countForStars: 030000000a000000
   textScoreToBeat: {fileID: 1804679142}
   textActualScore: {fileID: 666334753}
 --- !u!1 &666334751
@@ -1645,7 +1646,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1551234743}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1551234745}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1551234743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1698,6 +1711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelToLoad: LevelSelection
   nbStarsNeeded: 0
+  levelNumberLoaded: 0
 --- !u!1 &1580446615
 GameObject:
   m_ObjectHideFlags: 0

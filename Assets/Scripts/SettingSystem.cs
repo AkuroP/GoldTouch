@@ -7,6 +7,21 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
+
+
+[System.Serializable] // Permet à Unity de sérialiser cette classe et d'afficher ses champs dans l'inspecteur
+public class Data
+{
+    public int starsPerLevel; // Tableau d'entiers
+    public bool[] bools; // Tableau de booléens
+
+    // Constructeur pour initialiser les tableaux avec la taille spécifiée
+    public Data(int size)
+    {
+        
+        bools = new bool[3]; // Crée un tableau de 3 booléens pour chaque entier
+    }
+}
 public class SettingSystem : MonoBehaviour
 {
     
@@ -40,6 +55,12 @@ public class SettingSystem : MonoBehaviour
     [SerializeField] private GameObject starsVisuel;
 
     public static SettingSystem instance;
+
+    public Data[] donnees;
+
+
+    public int levelNumber;
+
 
     private void Awake()
     {
@@ -173,14 +194,6 @@ public class SettingSystem : MonoBehaviour
         }
     }
 
-    //void HideObjects()
-    //{
-    //    GameObject[] objectsToHide = GameObject.FindGameObjectsWithTag("ObjectsToHide");
-    //    foreach (GameObject obj in objectsToHide)
-    //    {
-    //        obj.SetActive(false);
-    //    }
-    //}
     void UnHideObjects()
     {
         starsVisuel.SetActive(true);

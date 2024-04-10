@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     bool win;
     public static GameManager instance;
 
+
     private void Awake()
     {
         if (instance == null)
@@ -42,14 +43,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(actualScore > scoreToBeat)
+        if(actualScore >= scoreToBeat)
         {
             if (!win)
             {
                 win = true;
                 Debug.Log("You win");
                 winScreen.SetActive(true);
-                StarsIncrementation();
                 SettingSystem.instance.nbStars += StarsIncrementation();
             }
             
@@ -62,25 +62,88 @@ public class GameManager : MonoBehaviour
     public int StarsIncrementation()
     {
         int starsToAdd = 0;
-        if (nbPlay < countForStars[0])
+        if (SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel != 0)
         {
-            Debug.Log("3 stars");
-            starsToAdd = 3;
-            return starsToAdd;
+            if (nbPlay < countForStars[0])
+            {
+                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2]) 
+                {
+                    Debug.Log("3 stars");
+                    if(SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel == 3)
+                    {
+                        starsToAdd = 3;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= starsToAdd;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2] = true;
+                        return starsToAdd;
+                    }
+                    else
+                    {
+                        starsToAdd = SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel = 0;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2] = true;
+                        return starsToAdd;
+                    }
+                    
+                }
+                else
+                {
+                    return starsToAdd;
+                }
+                
+
+            }
+            else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
+            {
+                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1])
+                {
+                    Debug.Log("2 stars");
+                    if (SettingSystem.instance.donnees[0].bools[0])
+                    {
+                        starsToAdd = 1;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= starsToAdd;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1] = true;
+                        return starsToAdd;
+                    }
+                    else
+                    {
+                        starsToAdd = 2;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= starsToAdd;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1] = true;
+                        return starsToAdd;
+                    }
+                    
+                }
+                else
+                {
+                    return starsToAdd;
+                }
+
+            }
+            else
+            {
+                if (!SettingSystem.instance.donnees[0].bools[0])
+                {
+                    Debug.Log("1 stars");
+                    if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1])
+                    {
+                        Debug.Log("1 stars");
+                        starsToAdd = 1;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= 1;
+                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0] = true;
+                        return starsToAdd;
+
+                    }
+                    
+                }
+                else
+                {
+                    Debug.Log("1 stars");
+                    return starsToAdd;
+                }
+            }
 
         }
-        else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
-        {
-            Debug.Log("2 stars");
-            starsToAdd = 2;
-            return starsToAdd;
-
-        }
-        else
-        {
-            Debug.Log("1 star");
-            starsToAdd = 1;
-            return starsToAdd;
-        }
+        return starsToAdd;
+        
     }
 }

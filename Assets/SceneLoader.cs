@@ -13,11 +13,15 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] private int nbStarsNeeded;
 
+    [SerializeField] private int levelNumberLoaded;
+
     public void LoadScene()
     {
         if(SettingSystem.instance.nbStars >= nbStarsNeeded)
         {
             SceneManager.LoadScene(levelToLoad);
+            SettingSystem.instance.levelNumber = levelNumberLoaded - 1;
         }
+
     }
 }
