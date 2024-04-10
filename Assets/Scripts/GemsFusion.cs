@@ -21,23 +21,25 @@ public class GemsFusion : MonoBehaviour
 
             if (collideGems.gemsIndex == gemsIndex)
             {
-                if (!gameObject.activeSelf || !collision.gameObject.activeSelf)
+                if (!transform.root.gameObject.activeSelf || !collision.transform.root.gameObject.activeSelf)
                 {
                     return;
                 }
                 print("same gems");
-                collision.gameObject.SetActive(false);
+                //Debug.Log(collideGems.name);
+                collision.transform.root.gameObject.SetActive(false);
                 Destroy((collision.transform.root.gameObject));
                 GameObject nextGems = Instantiate(GameManager.instance.AllGems[gemsIndex + 1]);
                 nextGems.transform.position = transform.position;
-                GameManager.instance.actualScore += fusionScore;
+                
+                StartCoroutine(GameManager.instance.IncreaseScore(fusionScore));
                 nextGems.GetComponentInChildren<GemsFusion>()._rb.AddExplosionForce(_explosionForce, nextGems.transform.position, _explosionRadius);
                 
                 Instantiate(GameManager.instance._fx, nextGems.transform.position, Quaternion.identity);
-                SettingSystem.instance.Vibrate();
+                //SettingSystem.instance.Vibrate();
 
-                gameObject.SetActive(false);
-                Destroy(gameObject);
+                transform.root.gameObject.SetActive(false);
+                Destroy(transform.root.gameObject);
 
             }
         }
