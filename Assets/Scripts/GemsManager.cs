@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.UI;
 public class GemsManager : MonoBehaviour
 {
     private int _nextGem;
@@ -17,10 +18,15 @@ public class GemsManager : MonoBehaviour
     private float _cd;
     private bool _canPlay = true;
 
-    [SerializeField]
+    [Foldout("Wall"), SerializeField]
     private Transform _wallLeft;
-    [SerializeField]
+    [Foldout("Wall"), SerializeField]
     private Transform _wallRight;
+
+    [SerializeField]
+    private Sprite[] _gemsSprites;
+    [SerializeField]
+    private Image _nextImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +36,8 @@ public class GemsManager : MonoBehaviour
         _currentGemRb.isKinematic = true;
         _cd = _cooldown;
 
+        _nextGem = Random.Range(0, 4);
+        _nextImage.sprite = _gemsSprites[_nextGem];
         //_affichageGems[_nextGem].SetActive(true);
     }
 
@@ -51,10 +59,11 @@ public class GemsManager : MonoBehaviour
     {
         //_affichageGems[_nextGem].SetActive(false);
         _cd = _cooldown;
-        _nextGem = Random.Range(0, 4);
         _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
         _currentGemRb = _currentGem.GetComponent<Rigidbody>();
         _currentGemRb.isKinematic = true;
+        _nextGem = Random.Range(0, 4);
+        _nextImage.sprite = _gemsSprites[_nextGem];
 
         //_affichageGems[_nextGem].SetActive(true);
         //Debug.Log("Next gem is : " + _nextGem);

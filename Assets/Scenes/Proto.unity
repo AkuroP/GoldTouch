@@ -839,6 +839,14 @@ MonoBehaviour:
   _cooldown: 1
   _wallLeft: {fileID: 722191029}
   _wallRight: {fileID: 1364191092}
+  _gemsSprites:
+  - {fileID: 21300000, guid: 2f42c6971337c004aba8b3e1324d3d88, type: 3}
+  - {fileID: 21300000, guid: 9a16d363c5b1d054b9c1cc3ef8e2e68c, type: 3}
+  - {fileID: 21300000, guid: c5269e7caab42a44f933ddecc640baac, type: 3}
+  - {fileID: 21300000, guid: 421cd86358488c74ca0e1841b5fe6992, type: 3}
+  - {fileID: 21300000, guid: 7040c8a0e32b4f347a572ce80befe497, type: 3}
+  - {fileID: 21300000, guid: 3af35949fb564b04d8532f14712f8f3a, type: 3}
+  _nextImage: {fileID: 1245570620}
 --- !u!4 &760444479
 Transform:
   m_ObjectHideFlags: 0
@@ -1769,7 +1777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Next
+  m_text: Next Gem
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1796,7 +1804,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 69.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2157,13 +2165,13 @@ RectTransform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 760444479}
+  - {fileID: 423895682}
   - {fileID: 912334932}
   - {fileID: 761118845}
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 224633136}
-  - {fileID: 423895682}
-  - {fileID: 760444479}
   - {fileID: 1196333064}
   - {fileID: 1035037899}
   - {fileID: 858402970}
