@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine.UI;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor;
+//using UnityEditor.Experimental.GraphView;
 public class GemsManager : MonoBehaviour
 {
     private int _nextGem;
