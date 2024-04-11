@@ -958,10 +958,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c81ef18a107bca43917f591bbaacfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: MainMenu
+  levelToLoad: Level1
   nbStarsNeeded: 4
   levelNumberLoaded: 3
-  audioManager: {fileID: 0}
 --- !u!114 &411730871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2104,7 +2103,6 @@ MonoBehaviour:
   levelToLoad: Endless
   nbStarsNeeded: 0
   levelNumberLoaded: 0
-  audioManager: {fileID: 0}
 --- !u!114 &842457827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2382,7 +2380,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1788761926}
-  audioManager: {fileID: 0}
   audioMixer: {fileID: 24100000, guid: ab0ea16640999fe4ab52e08a9d226fa7, type: 2}
   sceneToKeepObjects: MainMenu
   hideInMenu: MainMenu
@@ -2939,11 +2936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c81ef18a107bca43917f591bbaacfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: Proto
+  levelToLoad: Level1
   nbStarsNeeded: 0
   levelNumberLoaded: 1
-  audioManager: {fileID: 375305957170044707, guid: e3caef53f937d944abc38e910b75ccf5,
-    type: 3}
 --- !u!95 &1459046334
 Animator:
   serializedVersion: 5
@@ -3327,10 +3322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c81ef18a107bca43917f591bbaacfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: Proto
+  levelToLoad: Level1
   nbStarsNeeded: 2
   levelNumberLoaded: 2
-  audioManager: {fileID: 0}
 --- !u!114 &1633559692
 MonoBehaviour:
   m_ObjectHideFlags: 0

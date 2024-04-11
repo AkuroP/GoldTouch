@@ -10,5 +10,7 @@ public enum SoundState
     DAMAGE,
     MUSIC,
     SFX,
-    BUTTON
+    BUTTON,
+    BACKBUTTON,
+    SETTINGS
 }

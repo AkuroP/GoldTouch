@@ -15,7 +15,6 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] private int levelNumberLoaded;
 
-    [SerializeField] private AudioManager audioManager;
 
 
     public void LoadScene()
@@ -24,8 +23,10 @@ public class SceneLoader : MonoBehaviour
 
         if (SettingSystem.instance.nbStars >= nbStarsNeeded)
         {
+            AudioManager.instance.PlayRandom(SoundState.BUTTON);
             SceneManager.LoadScene(levelToLoad);
             SettingSystem.instance.levelNumber = levelNumberLoaded - 1;
+
         }
 
     }

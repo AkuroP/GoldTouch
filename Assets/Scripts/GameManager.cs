@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int[] countForStars = new int[2];
     public TextMeshProUGUI textScoreToBeat;
     public TextMeshProUGUI textActualScore;
+    public TextMeshProUGUI scoreFinal;
 
     private bool win;
 
@@ -68,8 +69,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         textActualScore.text = "Your money :\n" + actualScore + " ♦";
+        scoreFinal.text =  actualScore.ToString();
 
-        if(_inCombo)
+
+        if (_inCombo)
         {
             if (_comboTimer > 0) _comboTimer -= Time.deltaTime;
             else

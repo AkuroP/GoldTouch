@@ -12,6 +12,9 @@ public class AudioManager : MonoBehaviour
     
     private Dictionary<SoundState, List<Sound>> DicoActualSound = new Dictionary<SoundState, List<Sound>>();
 
+
+    public static AudioManager instance;
+
     void Start()
     {
         // Garantit que ce GameObject ne sera pas détruit lorsque la scène est changée
@@ -20,7 +23,12 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
-       foreach (Sound s in sounds)
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        foreach (Sound s in sounds)
        {
             s.Source = gameObject.AddComponent<AudioSource>();
             s.Source.clip = s.Clip;

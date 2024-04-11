@@ -28,7 +28,6 @@ public class SettingSystem : MonoBehaviour
     
     [SerializeField]private  Animator animator;
 
-    [SerializeField] private AudioManager audioManager;
 
     [SerializeField] private AudioMixer audioMixer;
 
@@ -56,13 +55,13 @@ public class SettingSystem : MonoBehaviour
     [SerializeField] private GameObject starsVisuel;
     [SerializeField] private GameObject homeButton;
 
-    public static SettingSystem instance;
 
     public Data[] donnees;
 
 
     public int levelNumber;
 
+    public static SettingSystem instance;
 
     private void Awake()
     {
@@ -137,10 +136,16 @@ public class SettingSystem : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+        AudioManager.instance.PlayRandom(SoundState.BACKBUTTON);
     }
-    public void Retry()
+    public void BackHomeMenu()
     {
         SceneManager.LoadScene("LevelSelection");
+        AudioManager.instance.PlayRandom(SoundState.BACKBUTTON);
+    }
+    public void Settings()
+    {
+        AudioManager.instance.PlayRandom(SoundState.SETTINGS);
     }
 
     public void EnableVibration()
@@ -148,6 +153,8 @@ public class SettingSystem : MonoBehaviour
         // Activer les vibrations du téléphone
         Handheld.Vibrate();
         isVibration = true;
+        AudioManager.instance.PlayRandom(SoundState.BUTTON);
+
         Debug.Log("Vibration activée");
     }
 
@@ -161,28 +168,33 @@ public class SettingSystem : MonoBehaviour
     {
         // Désactiver les vibrations du téléphone
         isVibration = false;
+        AudioManager.instance.PlayRandom(SoundState.BACKBUTTON);
         Debug.Log("Vibration désactivée");
     }
 
     public void EnableMusic()
     {
-        audioManager.Unpaused(SoundState.MENU);
-
+        AudioManager.instance.Unpaused(SoundState.MENU);
+        AudioManager.instance.PlayRandom(SoundState.BUTTON);
     }
 
     public void DisableMusic()
     {
-        audioManager.Paused(SoundState.MENU);        
+        AudioManager.instance.Paused(SoundState.MENU);
+        AudioManager.instance.PlayRandom(SoundState.BACKBUTTON);
+
 
     }
     public void EnableSFX()
     {
         audioMixer.SetFloat(exposedParameterName, sfxBaseVolume);
+        AudioManager.instance.PlayRandom(SoundState.BUTTON);
     }
 
     public void DisableSFX()
     {
         audioMixer.SetFloat(exposedParameterName, -80f);
+        AudioManager.instance.PlayRandom(SoundState.BACKBUTTON);
 
     }
 
