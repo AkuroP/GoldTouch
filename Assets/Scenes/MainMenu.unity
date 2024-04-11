@@ -1567,6 +1567,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: ab0ea16640999fe4ab52e08a9d226fa7, type: 2}
   sceneToKeepObjects: MainMenu
   hideInMenu: LevelSelection
+  showStars: LevelSelection
   nbStars: 0
   nbStarsText: {fileID: 55414262}
   starsVisuel: {fileID: 1711234758}
