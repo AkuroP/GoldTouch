@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textActualScore;
     public TextMeshProUGUI scoreFinal;
 
+
+    [SerializeField] private GameObject[] scoreStarsUI;
+
     private bool win;
 
     public bool Win => win;
@@ -99,6 +102,19 @@ public class GameManager : MonoBehaviour
                 win = true;
                 Debug.Log("You win");
                 winScreen.SetActive(true);
+                if (nbPlay < countForStars[0])
+                {
+                    scoreStarsUI[2].SetActive(true);
+                }
+
+                else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
+                {
+                    scoreStarsUI[1].SetActive(true);
+                }
+                else
+                {
+                    scoreStarsUI[0].SetActive(true);
+                }
                 SettingSystem.instance.nbStars += StarsIncrementation();
             }
             
