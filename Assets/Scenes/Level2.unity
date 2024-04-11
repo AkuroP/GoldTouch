@@ -351,7 +351,7 @@ MonoBehaviour:
   winScreen: {fileID: 2147041210}
   actualScore: 0
   nbPlay: 0
-  countForStars: 030000000a000000
+  countForStars: 0f0000001e000000
   textScoreToBeat: {fileID: 717422457}
   textActualScore: {fileID: 717422456}
   scoreFinal: {fileID: 721705423}
