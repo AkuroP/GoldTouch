@@ -27,16 +27,22 @@ public class GemsFusion : MonoBehaviour
                 }
                 print("same gems");
                 //Debug.Log(collideGems.name);
+                GameManager.instance._combo += 1;
+                GameManager.instance._inCombo = true;
+
+                GameManager.instance.ResetComboTimer();
+
+                if (GameManager.instance._combo > 1)
+                {
+                    GameManager.instance._comboGO.gameObject.SetActive(true);
+                    GameManager.instance._comboGO.text = "Combo ! x" + GameManager.instance._combo;
+                }
 
                 collision.transform.root.gameObject.SetActive(false);
                 Destroy((collision.transform.root.gameObject));
                 GameObject nextGems = Instantiate(GameManager.instance.AllGems[gemsIndex + 1]);
                 nextGems.transform.position = transform.position;
                 AudioManager.instance.PlayRandom(SoundState.FUSION);
-
-                GameManager.instance._combo += 1;
-                GameManager.instance._inCombo = true;
-                GameManager.instance.ResetComboTimer();
 
                 GameManager.instance.StartCoroutine(GameManager.instance.IncreaseScore(fusionScore));
                 nextGems.GetComponentInChildren<GemsFusion>()._rb.AddExplosionForce(_explosionForce, nextGems.transform.position, _explosionRadius);

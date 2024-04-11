@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     public float _comboMaxTimer = 1f;
     private float _comboTimer;
 
+    public TextMeshProUGUI _comboGO;
+
     [SerializeField]
     private GameObject[] _messages;
 

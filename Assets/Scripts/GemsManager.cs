@@ -96,7 +96,7 @@ public class GemsManager : MonoBehaviour
             _tapPos = Camera.main.ScreenToWorldPoint(new Vector3(ctx.ReadValue<Vector2>().x, 0f, 10f));
             _tapPos.y = _spawnPoint.position.y;
 
-            Debug.Log(_tapPos);
+            //Debug.Log(_tapPos);
 
 
             /*if (_tapPos.x > _wallLeft.position.x && _tapPos.x < _wallRight.position.x)*/ _currentGem.transform.position = new Vector2(_tapPos.x, _tapPos.y);

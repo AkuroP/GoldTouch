@@ -11,5 +11,10 @@ public class MessageInGame : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void DeactivateCombo()
+    {
+        GameManager.instance._comboGO.gameObject.SetActive(false);
+    }
+
 
 }
