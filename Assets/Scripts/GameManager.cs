@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
             }
             else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
             {
-                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1])
+                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1] && !SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2])
                 {
                     Debug.Log("2 stars");
                     if (SettingSystem.instance.donnees[0].bools[0])
@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0])
+                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0] && !SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1]&& !SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2])
                 {
                         starsToAdd = 1;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= 1;
