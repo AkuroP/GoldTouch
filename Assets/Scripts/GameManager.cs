@@ -97,27 +97,7 @@ public class GameManager : MonoBehaviour
         if (scoreToBeat <= -1) return;
         if(actualScore >= scoreToBeat)
         {
-            if (!win)
-            {
-                win = true;
-                Debug.Log("You win");
-                winScreen.SetActive(true);
-                AudioManager.instance.PlayRandom(SoundState.VICTORY);
-                if (nbPlay < countForStars[0])
-                {
-                    scoreStarsUI[2].SetActive(true);
-                }
-
-                else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
-                {
-                    scoreStarsUI[1].SetActive(true);
-                }
-                else
-                {
-                    scoreStarsUI[0].SetActive(true);
-                }
-                SettingSystem.instance.nbStars += StarsIncrementation();
-            }
+            EndGame();
             
         }
     }
@@ -219,6 +199,31 @@ public class GameManager : MonoBehaviour
         }
         return starsToAdd;
         
+    }
+
+    public void EndGame()
+    {
+        if (!win)
+        {
+            win = true;
+            Debug.Log("You win");
+            winScreen.SetActive(true);
+            AudioManager.instance.PlayRandom(SoundState.VICTORY);
+            if (nbPlay < countForStars[0])
+            {
+                scoreStarsUI[2].SetActive(true);
+            }
+
+            else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
+            {
+                scoreStarsUI[1].SetActive(true);
+            }
+            else
+            {
+                scoreStarsUI[0].SetActive(true);
+            }
+            SettingSystem.instance.nbStars += StarsIncrementation();
+        }
     }
 
 }

@@ -958,7 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c81ef18a107bca43917f591bbaacfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: Level1
+  levelToLoad: Level3
   nbStarsNeeded: 4
   levelNumberLoaded: 3
 --- !u!114 &411730871
@@ -3322,7 +3322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c81ef18a107bca43917f591bbaacfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: Level1
+  levelToLoad: Level2
   nbStarsNeeded: 2
   levelNumberLoaded: 2
 --- !u!114 &1633559692
