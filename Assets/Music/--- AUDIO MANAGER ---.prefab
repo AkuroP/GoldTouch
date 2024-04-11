@@ -45,11 +45,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Background Music
-    clip: {fileID: 8300000, guid: c0b214f31dafc2447ba0e3d8362be4d5, type: 3}
+  - name: MainMusic
+    clip: {fileID: 8300000, guid: 5828d24faa4daf447a385ccf5e30df5e, type: 3}
     volume: 0.2
     pitch: 1
     loop: 1
     atStart: 1
-    audioMixer: {fileID: 0}
+    audioMixer: {fileID: -2353440327316149332, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 0
+  - name: ButtonMenuB
+    clip: {fileID: 8300000, guid: 54da367459c46cb4fb080ced0781be74, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
     actualSound: 4
+  - name: ButtonSelectB
+    clip: {fileID: 8300000, guid: 38cef068698d70c4c81019ec137e28ed, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 3
+  - name: Settings
+    clip: {fileID: 8300000, guid: 43be49aa33b31194fab5612b4636c709, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 5
+  - name: Fusion1
+    clip: {fileID: 8300000, guid: 0ae3135d444aeb1448ddd2bd11d9d9df, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 6
+  - name: Fusion2
+    clip: {fileID: 8300000, guid: e6f239c73d5f6c04aaf8f774e0b7c9c8, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 6
+  - name: SpawnGem1
+    clip: {fileID: 8300000, guid: ca37964a7ebf6244d985bf16b1351744, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 7
+  - name: SpawnGem2
+    clip: {fileID: 8300000, guid: ba7112bd626257e4687f0bcb047cfacd, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 7
+  - name: Victory1
+    clip: {fileID: 8300000, guid: 5c5ed66d13ffbf9458397eaeb0e1a712, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 1
+  - name: Victory2
+    clip: {fileID: 8300000, guid: 78e4a96dba2831e4f99f7eeac72d7400, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    atStart: 0
+    audioMixer: {fileID: 8594239244441463572, guid: ab0ea16640999fe4ab52e08a9d226fa7,
+      type: 2}
+    actualSound: 1

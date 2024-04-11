@@ -5,12 +5,12 @@ using UnityEngine;
 public enum SoundState
 {
     MENU,
-    VICTORY,
-    DEATH,
-    DAMAGE,
-    MUSIC,
-    SFX,
+    VICTORY,    
+    MUSIC,    
     BUTTON,
     BACKBUTTON,
-    SETTINGS
+    SETTINGS,
+    FUSION,
+    SPAWN
+
 }
