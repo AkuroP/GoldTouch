@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        textScoreToBeat.text = "Quota :\n" + scoreToBeat.ToString() + " $";
+        textScoreToBeat.text = "/ " + scoreToBeat;
         ResetComboTimer();
     }
 
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        textActualScore.text = "Your money :\n" + actualScore + " $";
+        textActualScore.text =  actualScore.ToString();
         scoreFinal.text =  actualScore.ToString();
 
 
