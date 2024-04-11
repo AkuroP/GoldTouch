@@ -307,11 +307,11 @@ MonoBehaviour:
   - {fileID: 6134076911861216858, guid: 3c3196b2a7494184db3c3f61056b5321, type: 3}
   - {fileID: 1039535431850234076, guid: 2d91308b460cfbc4d88793e2751815f0, type: 3}
   - {fileID: 2984256422230647896, guid: 5befba0ae38ecdb4b853c12a2c312360, type: 3}
-  scoreToBeat: 500
+  scoreToBeat: 600
   winScreen: {fileID: 2147041210}
   actualScore: 0
   nbPlay: 0
-  countForStars: 0a00000017000000
+  countForStars: 2000000040000000
   textScoreToBeat: {fileID: 1804679142}
   textActualScore: {fileID: 666334753}
   scoreFinal: {fileID: 721705423}
