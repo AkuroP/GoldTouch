@@ -34,8 +34,8 @@ public class SettingSystem : MonoBehaviour
     [Scene]
     public string sceneToKeepObjects;
 
-    [Scene]
-    public string hideInMenu;
+    //[Scene]
+    //public string hideInMenu;
 
     [Scene]
     public string showStars;
@@ -100,10 +100,10 @@ public class SettingSystem : MonoBehaviour
         {
             EnableObjects();
         }
-        if (SceneManager.GetActiveScene().name == hideInMenu)
-        {
-            UnHideObjects();
-        }
+        //if (SceneManager.GetActiveScene().name == hideInMenu)
+        //{
+        //    UnHideObjects();
+        //}
         if (SceneManager.GetActiveScene().name == showStars)
         {
             ShowTotalStars();
@@ -230,10 +230,10 @@ public class SettingSystem : MonoBehaviour
         }
     }
 
-    void UnHideObjects()
-    {
-        homeButton.SetActive(true);
-    }
+    //void UnHideObjects()
+    //{
+    //    homeButton.SetActive(true);
+    //}
 
     void ShowTotalStars()
     {
