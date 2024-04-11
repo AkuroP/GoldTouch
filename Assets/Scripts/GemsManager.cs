@@ -41,6 +41,8 @@ public class GemsManager : MonoBehaviour
 
         _nextGem = Random.Range(0, 4);
         _nextImage.sprite = _gemsSprites[_nextGem];
+
+        AudioManager.instance.PlayRandom(SoundState.SPAWN);
         //_affichageGems[_nextGem].SetActive(true);
     }
 
@@ -70,7 +72,7 @@ public class GemsManager : MonoBehaviour
         if(!_currentGemRb.isKinematic) _currentGemRb.isKinematic = true;
         _nextGem = Random.Range(0, 4);
         _nextImage.sprite = _gemsSprites[_nextGem];
-
+        AudioManager.instance.PlayRandom(SoundState.SPAWN);
         //_affichageGems[_nextGem].SetActive(true);
         //Debug.Log("Next gem is : " + _nextGem);
     }

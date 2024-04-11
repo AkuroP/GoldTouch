@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
                 win = true;
                 Debug.Log("You win");
                 winScreen.SetActive(true);
+                AudioManager.instance.PlayRandom(SoundState.VICTORY);
                 if (nbPlay < countForStars[0])
                 {
                     scoreStarsUI[2].SetActive(true);

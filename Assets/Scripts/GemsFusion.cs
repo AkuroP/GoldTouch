@@ -27,10 +27,12 @@ public class GemsFusion : MonoBehaviour
                 }
                 print("same gems");
                 //Debug.Log(collideGems.name);
+
                 collision.transform.root.gameObject.SetActive(false);
                 Destroy((collision.transform.root.gameObject));
                 GameObject nextGems = Instantiate(GameManager.instance.AllGems[gemsIndex + 1]);
                 nextGems.transform.position = transform.position;
+                AudioManager.instance.PlayRandom(SoundState.FUSION);
 
                 GameManager.instance._combo += 1;
                 GameManager.instance._inCombo = true;
