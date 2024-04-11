@@ -37,6 +37,9 @@ public class SettingSystem : MonoBehaviour
     [Scene]
     public string hideInMenu;
 
+    [Scene]
+    public string showStars;
+
     //[Scene]
     //public string levelToLoad;
 
@@ -101,8 +104,18 @@ public class SettingSystem : MonoBehaviour
         {
             UnHideObjects();
         }
-        
-        
+        if (SceneManager.GetActiveScene().name == showStars)
+        {
+            ShowTotalStars();
+        }
+        else
+        {
+            UnShowTotalStars();
+        }
+
+
+
+
         nbStarsText.text = nbStars.ToString();
 
     }
@@ -219,10 +232,19 @@ public class SettingSystem : MonoBehaviour
 
     void UnHideObjects()
     {
-        starsVisuel.SetActive(true);
         homeButton.SetActive(true);
     }
 
+    void ShowTotalStars()
+    {
+        starsVisuel.SetActive(true);
+
+    }
+    void UnShowTotalStars()
+    {
+        starsVisuel.SetActive(false);
+
+    }
 
 
 }
