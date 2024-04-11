@@ -3046,6 +3046,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: scoreUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2442978611572550507, guid: 7925234df6cecf94a9dc50e7b4f6c0d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6795502000747256753, guid: 7925234df6cecf94a9dc50e7b4f6c0d7,
         type: 3}
       propertyPath: m_Pivot.x
