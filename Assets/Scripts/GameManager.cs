@@ -175,23 +175,20 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (!SettingSystem.instance.donnees[0].bools[0])
+                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0])
                 {
-                    Debug.Log("1 stars");
-                    if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1])
-                    {
-                        Debug.Log("1 stars");
                         starsToAdd = 1;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= 1;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0] = true;
-                        return starsToAdd;
+                    Debug.Log(SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0]);
 
-                    }
-                    
+                    return starsToAdd;
                 }
                 else
                 {
                     Debug.Log("1 stars");
+                    Debug.Log(SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0]);
+
                     return starsToAdd;
                 }
             }
