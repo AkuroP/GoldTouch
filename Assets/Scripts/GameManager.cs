@@ -54,6 +54,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GemsManager _gemsManager;
 
+    private int freeTurns = 0;
+    private bool isEvolutionMode = false;
+
+
+    [Header("save gems aival")]
+    public Dictionary<int, List<GameObject>> gemGroups;
+
     private void Awake()
     {
         if (instance == null)
@@ -76,6 +83,9 @@ public class GameManager : MonoBehaviour
         textActualScore.text =  actualScore.ToString();
         scoreFinal.text =  actualScore.ToString();
 
+
+        Debug.Log(nbPlay);
+        Debug.Log(freeTurns);
 
         if (_inCombo)
         {
@@ -222,6 +232,70 @@ public class GameManager : MonoBehaviour
                 scoreStarsUI[0].SetActive(true);
             }
             SettingSystem.instance.nbStars += StarsIncrementation();
+        }
+    }
+    public void ActivateFreeTurns(int freeTurnCount)
+    {
+        freeTurns = freeTurnCount;
+        Debug.Log("feee");
+
+    }
+
+    public void IncrementTurn()
+    {
+        if (freeTurns > 0)
+        {
+            freeTurns--;
+        }
+        else
+        {
+            nbPlay++;
+        }
+    }
+
+    // Fonctionnalité du deuxième bouton : Fusionner les gemmes identiques
+    public void MergeIdenticalGems()
+    {
+        gemGroups = new Dictionary<int, List<GameObject>>();
+        Debug.Log("Mege");
+
+        foreach (var gem in _allGems)
+        {
+            GemsFusion gemFusion = gem.GetComponent<GemsFusion>();
+            if (gemFusion == null) continue;
+
+            int gemType = gemFusion.gemsIndex;
+            if (!gemGroups.ContainsKey(gemType))
+                gemGroups[gemType] = new List<GameObject>();
+
+            gemGroups[gemType].Add(gem);
+        }
+
+        foreach (var group in gemGroups.Values)
+        {
+            if (group.Count > 1)
+            {
+                // Fusion de toutes les gemmes dans le groupe
+                _gemsManager.FusionGroupe(group);
+            }
+        }
+    }
+
+    // Fonctionnalité du troisième bouton : Activer le mode d'évolution
+    public void ActivateEvolutionMode()
+    {
+        isEvolutionMode = true;
+        Debug.Log(isEvolutionMode);
+
+    }
+
+    // Méthode pour évoluer une gemme spécifique lors d'un clic
+    public void EvolveGem(GameObject gem)
+    {
+        if (isEvolutionMode)
+        {
+            _gemsManager.EvolveGem(gem);
+            isEvolutionMode = false; // Désactiver le mode après une évolution
         }
     }
 

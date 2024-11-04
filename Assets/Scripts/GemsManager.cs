@@ -30,6 +30,11 @@ public class GemsManager : MonoBehaviour
     private Sprite[] _gemsSprites;
     [SerializeField]
     private Image _nextImage;
+
+    [SerializeField]
+    private GameObject[] gemPrefabs;
+
+    [SerializeField] private RectTransform bonusZone;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,8 +63,55 @@ public class GemsManager : MonoBehaviour
             GameManager.instance.CanPlay = true;
         }
 
-
     }
+
+    public void FusionGroupe(List<GameObject> gems)
+    {
+        if (gems == null || gems.Count <= 1) return; // Rien à fusionner s'il n'y a qu'une gemme
+
+        // Prendre l'index de type de gemme de l'une des gemmes dans le groupe
+        int gemTypeIndex = gems[0].GetComponent<GemsFusion>().gemsIndex;
+
+        // Détruire toutes les gemmes dans le groupe
+        foreach (var gem in gems)
+        {
+            Destroy(gem);
+        }
+
+        // Créer une gemme de niveau supérieur à la position de la première gemme du groupe
+        if (gemTypeIndex + 1 < gemPrefabs.Length)
+        {
+            GameObject evolvedGem = Instantiate(gemPrefabs[gemTypeIndex + 1], gems[0].transform.position, Quaternion.identity);
+            evolvedGem.GetComponent<Rigidbody>().AddExplosionForce(300f, evolvedGem.transform.position, 5f);
+        }
+
+        Debug.Log("Fusion de groupe effectuée !");
+    }
+
+    // Méthode pour faire évoluer une gemme spécifique
+    public void EvolveGem(GameObject gem)
+    {
+        if (gem == null) return;
+
+        GemsFusion gemFusion = gem.GetComponent<GemsFusion>();
+        int gemTypeIndex = gemFusion.gemsIndex;
+
+        // Vérifier si on peut évoluer vers un type de gemme supérieur
+        if (gemTypeIndex + 1 < gemPrefabs.Length)
+        {
+            Vector3 position = gem.transform.position;
+
+            // Détruire l'ancienne gemme
+            Destroy(gem);
+
+            // Créer la nouvelle gemme évoluée
+            GameObject evolvedGem = Instantiate(gemPrefabs[gemTypeIndex + 1], position, Quaternion.identity);
+            evolvedGem.GetComponent<Rigidbody>().AddExplosionForce(300f, evolvedGem.transform.position, 5f);
+
+            Debug.Log("Évolution de la gemme effectuée !");
+        }
+    }
+
 
     public void NextGem()
     {
@@ -80,10 +132,25 @@ public class GemsManager : MonoBehaviour
 
     public void OnTouchDrag(InputAction.CallbackContext ctx)
     {
-        if (GameManager.instance.Win) return;
+        if (GameManager.instance.Win)
+            return;
 
-        if (!GameManager.instance.CanPlay) return;
-        if(ctx.started)
+        if (!GameManager.instance.CanPlay) 
+            return;
+
+        Vector2 screenPoint = ctx.ReadValue<Vector2>();
+
+        Debug.Log(screenPoint);
+        
+        bool isInBonusZone = RectTransformUtility.RectangleContainsScreenPoint(bonusZone, screenPoint);
+
+        if (isInBonusZone)
+        {
+            Debug.Log("Clic dans la zone de bonus, interaction annulée.");
+            return;
+        }
+
+        if (ctx.started)
         {
             if (GameManager.instance.CanPlay && _cd <= 0 && !GameManager.instance._inCombo) _currentGem = Instantiate(GameManager.instance.AllGems[_nextGem], _spawnPoint.position, GameManager.instance.AllGems[_nextGem].transform.rotation);
             else return;
@@ -105,16 +172,21 @@ public class GemsManager : MonoBehaviour
         }
         if (ctx.canceled)
         {
-            if (_currentGem == null) return;
+            if (_currentGem == null) 
+                return;
             //Debug.Log("DROP");
-            if(_currentGemRb == null)_currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
+            if(_currentGemRb == null)
+                _currentGemRb = _currentGem.GetComponentInChildren<Rigidbody>();
+
             _currentGemRb.isKinematic = false;
             _currentGemRb.AddRelativeTorque(new Vector3(0, 1, 0), ForceMode.Impulse);
-            GameManager.instance.nbPlay += 1;
+            GameManager.instance.IncrementTurn();
             _currentGem = null;
             if(GameManager.instance.CanPlay) GameManager.instance.CanPlay = false;
         }
         
     }
+
+    
 
 }
