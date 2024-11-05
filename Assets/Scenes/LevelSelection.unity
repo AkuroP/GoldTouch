@@ -1600,14 +1600,23 @@ MonoBehaviour:
     - {fileID: 389044664}
     - {fileID: 370742816}
     - {fileID: 589425145}
+    isUnlocked: 0
+    isAnimationStarted: 0
+    bools: 
   - starsSprites:
     - {fileID: 763725230}
     - {fileID: 1291796059}
     - {fileID: 9983159}
+    isUnlocked: 0
+    isAnimationStarted: 0
+    bools: 
   - starsSprites:
     - {fileID: 1209344467}
     - {fileID: 2099650990}
     - {fileID: 1501052492}
+    isUnlocked: 0
+    isAnimationStarted: 0
+    bools: 
   starsLocked:
   - {fileID: 809870869}
   - {fileID: 259098064}

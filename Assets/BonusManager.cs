@@ -11,18 +11,15 @@ public class BonusManager : MonoBehaviour
 
     [SerializeField] private Button freeTurnButton;
     [SerializeField] private Button mergeGemsButton;
-    [SerializeField] private Button evolveGemButton;
 
     [SerializeField] private int freeTurnCount; // Nombre de coups gratuits disponibles
     [SerializeField] private int mergeUses;// Nombre de fusions disponibles
-    [SerializeField] private int evolveUses; // Nombre d'évolutions disponibles
 
     private void Start()
     {
         // Assigner les méthodes aux boutons UI
         freeTurnButton.onClick.AddListener(ActivateFreeTurnsBonus);
         mergeGemsButton.onClick.AddListener(ActivateMergeGemsBonus);
-        evolveGemButton.onClick.AddListener(ActivateEvolveGemMode);
     }
 
     // Méthode pour le premier bouton : Activer les tours gratuits
@@ -46,14 +43,5 @@ public class BonusManager : MonoBehaviour
         }
     }
 
-    // Méthode pour le troisième bouton : Mode d'évolution
-    public void ActivateEvolveGemMode()
-    {
-        if (evolveUses > 0)
-        {
-            evolveUses--;
-            GameManager.instance.ActivateEvolutionMode();
-
-        }
-    }
+   
 }

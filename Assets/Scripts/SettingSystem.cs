@@ -26,7 +26,8 @@ public class Data
 public class SettingSystem : MonoBehaviour
 {
     
-    [SerializeField]private  Animator animator;
+    [SerializeField]private  Animator animatorsetting;
+    [SerializeField]private  Animator animatorShop;
 
 
     [SerializeField] private AudioMixer audioMixer;
@@ -66,6 +67,8 @@ public class SettingSystem : MonoBehaviour
 
     public static SettingSystem instance;
 
+    [SerializeField] private TextMeshProUGUI goldText;
+
     private void Awake()
     {
         if (instance == null)
@@ -88,6 +91,42 @@ public class SettingSystem : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         sfxBaseVolume = GetMixerVolume();
+
+
+        LoadStars();
+        UpdateStarsText();
+        UpdateGoldText();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+
+    public void Save()
+    {
+        PlayerPrefs.SetInt("NbStars", nbStars);
+        PlayerPrefs.Save();
+        
+    }
+
+    public void LoadStars()
+    {
+        if (PlayerPrefs.HasKey("NbStars"))
+        {
+            nbStars = PlayerPrefs.GetInt("NbStars");
+            Debug.Log("Nombre d'étoiles chargé: " + nbStars);
+        }
+        else
+        {
+            Debug.Log("Aucune donnée d'étoiles trouvée, utilisant le nombre par défaut.");
+            nbStars = 0;
+        }
+    }
+
+    private void UpdateStarsText()
+    {
+        nbStarsText.text = nbStars.ToString();
     }
 
     private void Update()
@@ -117,7 +156,15 @@ public class SettingSystem : MonoBehaviour
 
 
         nbStarsText.text = nbStars.ToString();
+        UpdateGoldText();
+    }
 
+    private void UpdateGoldText()
+    {
+        if (goldText != null && GameManager.instance != null)
+        {
+            goldText.text = GameManager.instance.GoldHardCurrency.ToString();
+        }
     }
     float GetMixerVolume()
     {
@@ -135,12 +182,12 @@ public class SettingSystem : MonoBehaviour
     {
         if (animationForward)
         {
-            animator.SetBool("IsOn", false);
+            animatorsetting.SetBool("IsOn", false);
             animationForward = false;
         }
         else
         {
-            animator.SetBool("IsOn", true);
+            animatorsetting.SetBool("IsOn", true);
             animationForward = true;
         }
         
@@ -159,6 +206,17 @@ public class SettingSystem : MonoBehaviour
     public void Settings()
     {
         AudioManager.instance.PlayRandom(SoundState.SETTINGS);
+    }
+
+    public void Shop()
+    {
+        AudioManager.instance.PlayRandom(SoundState.BUTTON);
+        animatorShop.SetBool("IsShop", true);
+    }
+    public void ShopBack()
+    {
+        AudioManager.instance.PlayRandom(SoundState.BUTTON);
+        animatorShop.SetBool("IsShop", false);
     }
 
     public void EnableVibration()

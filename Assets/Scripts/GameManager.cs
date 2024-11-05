@@ -57,9 +57,20 @@ public class GameManager : MonoBehaviour
     private int freeTurns = 0;
     private bool isEvolutionMode = false;
 
+    [SerializeField]
+    private int goldHardCurrency; // Permet de définir la valeur de départ dans l'inspecteur
 
-    [Header("save gems aival")]
-    public Dictionary<int, List<GameObject>> gemGroups;
+
+    public int GoldHardCurrency
+    {
+        get => goldHardCurrency;
+        set
+        {
+            goldHardCurrency = value;
+            SaveGoldHardCurrency(); // Sauvegarde automatique lors de la mise à jour
+        }
+    }
+
 
     private void Awake()
     {
@@ -73,6 +84,7 @@ public class GameManager : MonoBehaviour
     {
         textScoreToBeat.text = "/ " + scoreToBeat;
         ResetComboTimer();
+        LoadStarsPerLevel();
     }
 
     public void ResetComboTimer() => _comboTimer = _comboMaxTimer;
@@ -256,47 +268,122 @@ public class GameManager : MonoBehaviour
     // Fonctionnalité du deuxième bouton : Fusionner les gemmes identiques
     public void MergeIdenticalGems()
     {
-        gemGroups = new Dictionary<int, List<GameObject>>();
-        Debug.Log("Mege");
+        // Récupère toutes les gemmes présentes dans la scène
+        GemsFusion[] activeGems = FindObjectsOfType<GemsFusion>();
 
-        foreach (var gem in _allGems)
+        // Si aucune gemme n'est trouvée, on arrête la méthode
+        if (activeGems.Length == 0)
         {
-            GemsFusion gemFusion = gem.GetComponent<GemsFusion>();
-            if (gemFusion == null) continue;
-
-            int gemType = gemFusion.gemsIndex;
-            if (!gemGroups.ContainsKey(gemType))
-                gemGroups[gemType] = new List<GameObject>();
-
-            gemGroups[gemType].Add(gem);
+            Debug.LogWarning("Aucune gemme active trouvée dans la scène !");
+            return;
         }
 
+        Dictionary<int, List<GameObject>> gemGroups = new Dictionary<int, List<GameObject>>();
+
+        // Récupérer la position de spawn depuis le GemsManager
+        Vector3 spawnPosition = _gemsManager._spawnPoint.position;
+
+        // Ajout des gemmes dans des groupes basés sur leur type
+        foreach (var gemFusion in activeGems)
+        {
+            // Ignore la gemme si elle est à la même position que _spawnPoint
+            if (gemFusion.transform.position == spawnPosition)
+            {
+                continue;
+            }
+
+            int gemTypeIndex = gemFusion.gemsIndex;
+            if (!gemGroups.ContainsKey(gemTypeIndex))
+                gemGroups[gemTypeIndex] = new List<GameObject>();
+
+            gemGroups[gemTypeIndex].Add(gemFusion.gameObject);
+        }
+
+        // Fusion des gemmes par groupes de 2 dans chaque groupe de type de gemme
         foreach (var group in gemGroups.Values)
         {
-            if (group.Count > 1)
+            for (int i = 0; i < group.Count - 1; i += 2) // Boucle par étapes de 2
             {
-                // Fusion de toutes les gemmes dans le groupe
-                _gemsManager.FusionGroupe(group);
+                GameObject gem1 = group[i];
+                GameObject gem2 = group[i + 1];
+
+                // Vérifie si les gemmes sont nulles (au cas où une gemme aurait été détruite précédemment)
+                if (gem1 == null || gem2 == null) continue;
+
+                // Appel de FusionnerGroupe avec une liste de 2 gemmes
+                _gemsManager.FusionnerGroupe(new List<GameObject> { gem1, gem2 });
             }
         }
     }
 
-    // Fonctionnalité du troisième bouton : Activer le mode d'évolution
-    public void ActivateEvolutionMode()
+    private void SaveStarsPerLevel()
     {
-        isEvolutionMode = true;
-        Debug.Log(isEvolutionMode);
-
+        // Conversion des étoiles en chaîne et sauvegarde
+        string starsString = string.Join(",", SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel);
+        PlayerPrefs.SetString("StarsPerLevel_" + SettingSystem.instance.levelNumber, starsString);
+        PlayerPrefs.Save();
+        Debug.Log("Étoiles sauvegardées pour le niveau " + SettingSystem.instance.levelNumber + ": " + starsString);
     }
 
-    // Méthode pour évoluer une gemme spécifique lors d'un clic
-    public void EvolveGem(GameObject gem)
+    private void LoadStarsPerLevel()
     {
-        if (isEvolutionMode)
+        // Chargement des étoiles à partir de PlayerPrefs
+        if (PlayerPrefs.HasKey("StarsPerLevel_" + SettingSystem.instance.levelNumber))
         {
-            _gemsManager.EvolveGem(gem);
-            isEvolutionMode = false; // Désactiver le mode après une évolution
+            string starsString = PlayerPrefs.GetString("StarsPerLevel_" + SettingSystem.instance.levelNumber);
+            string[] starsArray = starsString.Split(',');
+            for (int i = 0; i < starsArray.Length; i++)
+            {
+                if (int.TryParse(starsArray[i], out int star))
+                {
+                    SettingSystem.instance.donnees[i].starsPerLevel = star;
+                }
+            }
+            Debug.Log("Étoiles chargées pour le niveau " + SettingSystem.instance.levelNumber + ": " + starsString);
         }
     }
 
+    private void SaveGoldHardCurrency()
+    {
+        PlayerPrefs.SetInt("GoldHardCurrency", goldHardCurrency);
+        PlayerPrefs.Save();
+        Debug.Log("GoldHardCurrency sauvegardé : " + goldHardCurrency);
+    }
+
+    // Méthode pour charger la monnaie
+    private void LoadGoldHardCurrency()
+    {
+        if (PlayerPrefs.HasKey("GoldHardCurrency"))
+        {
+            goldHardCurrency = PlayerPrefs.GetInt("GoldHardCurrency");
+            Debug.Log("GoldHardCurrency chargé : " + goldHardCurrency);
+        }
+        else
+        {
+            Debug.Log("Aucune valeur de GoldHardCurrency trouvée, utilisant la valeur par défaut.");
+        }
+    }
+
+    
+
+    public void AddGold(int amount)
+    {
+        GoldHardCurrency += amount;
+    }
+
+    // Exemple d'usage dans une méthode : Soustraire de la monnaie
+    public bool SpendGold(int amount)
+    {
+        if (GoldHardCurrency >= amount)
+        {
+            GoldHardCurrency -= amount;
+            Debug.Log("GoldHardCurrency actuel après dépense : " + GoldHardCurrency);
+            return true;
+        }
+        else
+        {
+            Debug.Log("Pas assez de GoldHardCurrency pour cette dépense.");
+            return false;
+        }
+    }
 }
