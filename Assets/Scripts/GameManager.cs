@@ -57,19 +57,6 @@ public class GameManager : MonoBehaviour
     private int freeTurns = 0;
     private bool isEvolutionMode = false;
 
-    [SerializeField]
-    private int goldHardCurrency; // Permet de définir la valeur de départ dans l'inspecteur
-
-
-    public int GoldHardCurrency
-    {
-        get => goldHardCurrency;
-        set
-        {
-            goldHardCurrency = value;
-            SaveGoldHardCurrency(); // Sauvegarde automatique lors de la mise à jour
-        }
-    }
 
 
     private void Awake()
@@ -343,47 +330,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SaveGoldHardCurrency()
-    {
-        PlayerPrefs.SetInt("GoldHardCurrency", goldHardCurrency);
-        PlayerPrefs.Save();
-        Debug.Log("GoldHardCurrency sauvegardé : " + goldHardCurrency);
-    }
-
-    // Méthode pour charger la monnaie
-    private void LoadGoldHardCurrency()
-    {
-        if (PlayerPrefs.HasKey("GoldHardCurrency"))
-        {
-            goldHardCurrency = PlayerPrefs.GetInt("GoldHardCurrency");
-            Debug.Log("GoldHardCurrency chargé : " + goldHardCurrency);
-        }
-        else
-        {
-            Debug.Log("Aucune valeur de GoldHardCurrency trouvée, utilisant la valeur par défaut.");
-        }
-    }
-
-    
-
-    public void AddGold(int amount)
-    {
-        GoldHardCurrency += amount;
-    }
-
-    // Exemple d'usage dans une méthode : Soustraire de la monnaie
-    public bool SpendGold(int amount)
-    {
-        if (GoldHardCurrency >= amount)
-        {
-            GoldHardCurrency -= amount;
-            Debug.Log("GoldHardCurrency actuel après dépense : " + GoldHardCurrency);
-            return true;
-        }
-        else
-        {
-            Debug.Log("Pas assez de GoldHardCurrency pour cette dépense.");
-            return false;
-        }
-    }
+   
 }

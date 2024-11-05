@@ -23,6 +23,21 @@ public class Data
         bools = new bool[3]; // Crée un tableau de 3 booléens pour chaque entier
     }
 }
+
+[System.Serializable]
+public class Bonus
+{
+    public string bonusName; // Nom du bonus
+    public int minAmount; // Montant minimum
+    public int maxAmount; // Montant maximum
+
+    public Bonus(string name, int min, int max)
+    {
+        bonusName = name;
+        minAmount = min;
+        maxAmount = max;
+    }
+}
 public class SettingSystem : MonoBehaviour
 {
     
@@ -35,14 +50,8 @@ public class SettingSystem : MonoBehaviour
     [Scene]
     public string sceneToKeepObjects;
 
-    //[Scene]
-    //public string hideInMenu;
-
     [Scene]
     public string showStars;
-
-    //[Scene]
-    //public string levelToLoad;
 
 
     private bool animationForward = false;
@@ -69,6 +78,13 @@ public class SettingSystem : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI goldText;
 
+    private int goldHardCurrency;
+
+    private List<Bonus> bonuses;
+
+    public int nbFreeTurneBonus;
+    public int nbAutoMergeBonus;
+
     private void Awake()
     {
         if (instance == null)
@@ -92,15 +108,18 @@ public class SettingSystem : MonoBehaviour
 
         sfxBaseVolume = GetMixerVolume();
 
-
+        InitializeGold();
         LoadStars();
         UpdateStarsText();
         UpdateGoldText();
+
+        InitializeBonuses();
     }
 
     private void OnApplicationQuit()
     {
         Save();
+        SaveGold();
     }
 
     public void Save()
@@ -139,10 +158,7 @@ public class SettingSystem : MonoBehaviour
         {
             EnableObjects();
         }
-        //if (SceneManager.GetActiveScene().name == hideInMenu)
-        //{
-        //    UnHideObjects();
-        //}
+        
         if (SceneManager.GetActiveScene().name == showStars)
         {
             ShowTotalStars();
@@ -153,19 +169,13 @@ public class SettingSystem : MonoBehaviour
         }
 
 
-
-
         nbStarsText.text = nbStars.ToString();
         UpdateGoldText();
+        Debug.Log("nbAutoMergeBonus : " +nbAutoMergeBonus);
+        Debug.Log("nbFreeTurneBonus : " + nbFreeTurneBonus);
     }
 
-    private void UpdateGoldText()
-    {
-        if (goldText != null && GameManager.instance != null)
-        {
-            goldText.text = GameManager.instance.GoldHardCurrency.ToString();
-        }
-    }
+    
     float GetMixerVolume()
     {
         float volume = 0f;
@@ -217,6 +227,7 @@ public class SettingSystem : MonoBehaviour
     {
         AudioManager.instance.PlayRandom(SoundState.BUTTON);
         animatorShop.SetBool("IsShop", false);
+        Debug.Log("je evien du shop l'ami");
     }
 
     public void EnableVibration()
@@ -288,10 +299,6 @@ public class SettingSystem : MonoBehaviour
         }
     }
 
-    //void UnHideObjects()
-    //{
-    //    homeButton.SetActive(true);
-    //}
 
     void ShowTotalStars()
     {
@@ -304,5 +311,100 @@ public class SettingSystem : MonoBehaviour
 
     }
 
+
+    private void InitializeGold()
+    {
+        // Charger la valeur de PlayerPrefs si elle existe, sinon initialiser avec une valeur par défaut (ex. : 100)
+        goldHardCurrency = PlayerPrefs.GetInt("GoldHardCurrency", 500); // Valeur par défaut 100
+    }
+
+    public void SaveGold()
+    {
+        PlayerPrefs.SetInt("GoldHardCurrency", goldHardCurrency);
+        PlayerPrefs.Save();
+    }
+
+    // Méthode pour mettre à jour l'UI du texte de la monnaie
+    public void UpdateGoldText()
+    {
+        // Supposons que vous ayez un TextMeshProUGUI nommé goldText
+        goldText.text = goldHardCurrency.ToString();
+    }
+
+    public void AddGold(int amount)
+    {
+        goldHardCurrency += amount;
+        SaveGold();
+        UpdateGoldText();
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (goldHardCurrency >= amount)
+        {
+            goldHardCurrency -= amount;
+            SaveGold();
+            UpdateGoldText();
+            return true;
+        }
+        else
+        {
+            Debug.Log("Pas assez de monnaie !");
+            return false;
+        }
+    }
+
+    public void OnCofferButtonPress(int CofferPrice)
+    {
+        if (goldHardCurrency >= CofferPrice) // Vérifie si le joueur peut se permettre d'acheter le coffre
+        {
+            // Ici, vous pouvez ajouter le code pour faire ce qui doit être fait si le joueur a suffisamment de gold
+            Debug.Log("Coffre acheté !");
+            // Remplacez ceci par le code d'achat réel
+            goldHardCurrency -= CofferPrice;    
+
+            GenerateRandomBonuses(CofferPrice);
+        }
+        else
+        {
+            Debug.Log("Pas assez de gold pour acheter le coffre !");
+        }
+    }
+
+    private void InitializeBonuses()
+    {
+        bonuses = new List<Bonus>
+        {
+            new Bonus("FreeLunch", 1, 3), // 1 à 3 exemplaires de Bonus1
+            new Bonus("MergeBonus", 1, 3)  // 1 à 5 exemplaires de Bonus2
+        };
+    }
+
+    private void GenerateRandomBonuses(int cofferPrice)
+    {
+        int bonusCount = Random.Range(1, (cofferPrice / 100 + 1)); // Le nombre de bonus dépend du prix du coffre
+
+        for (int i = 0; i < bonusCount; i++)
+        {
+            // Sélectionne un bonus aléatoire
+            Bonus selectedBonus = bonuses[Random.Range(0, bonuses.Count)];
+
+            // Détermine le nombre d'exemplaires de ce bonus
+            int amount = Random.Range(selectedBonus.minAmount, selectedBonus.maxAmount + 1);
+
+            // Affiche le bonus reçu
+            Debug.Log($"Vous avez reçu {amount} exemplaires de {selectedBonus.bonusName} !");
+
+            if(selectedBonus == bonuses[0])
+            {
+                nbFreeTurneBonus += amount;
+            }
+            if (selectedBonus == bonuses[1])
+            {
+                nbAutoMergeBonus += amount;
+            }
+        }
+    }
+    
 
 }
