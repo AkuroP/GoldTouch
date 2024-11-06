@@ -65,11 +65,12 @@ public class FirebirdLeaderboardManager : MonoBehaviour
     {
         PlayerPrefs.DeleteKey("PlayerID");
         PlayerPrefs.DeleteKey("Username");
-        usernameInput.text = "";
-        profileUsernameTxt.text = "";
-        profileUserScoreTxt.text = "";
+        PlayerPrefs.DeleteKey("Highscore");
+        usernameInput.text = " ";
+        profileUsernameTxt.text = " ";
+        profileUserScoreTxt.text = " ";
         highscore = 0;
-        username = "";
+        username = " ";
         usernamePanel.SetActive(true);
         userProfilePanel.SetActive(false);
         
