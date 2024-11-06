@@ -13,7 +13,7 @@ public class FirebirdLeaderboardManager : MonoBehaviour
 
     public TMP_InputField usernameInput;
 
-    public int score,highscore,totalUsers = 0;
+    public int highscore,totalUsers = 0;
 
     
     public string username = "";
@@ -36,7 +36,8 @@ public class FirebirdLeaderboardManager : MonoBehaviour
 
     public void ShowLeaderboard()
     {
-        StartCoroutine(FetchLeaderBoardData());    
+        StartCoroutine(FetchLeaderBoardData()); 
+        
     }
 
     public void SignInWithUsername() 
@@ -90,6 +91,7 @@ public class FirebirdLeaderboardManager : MonoBehaviour
         //Check if Player Already login Then  Show user profile Otherwise show username signin
 
         StartCoroutine(FetchUserProfileData(PlayerPrefs.GetInt("PlayerID")));
+        StartCoroutine(CheckAndPushHighScore());  
 
 
     }
@@ -178,7 +180,8 @@ IEnumerator DelayFetchProfile(){
 void PushUserData()
 {
     db.Child("User_"+(totalUsers+1).ToString()).Child("username").SetValueAsync(usernameInput.text);
-    db.Child("User_"+(totalUsers+1).ToString()).Child("highscore").SetValueAsync(0);
+    db.Child("User_"+(totalUsers+1).ToString()).Child("highscore").SetValueAsync(PlayerPrefs.GetInt("Highscore"));
+    Debug.LogError(PlayerPrefs.GetInt("Highscore"));
 
 }
 
@@ -204,7 +207,7 @@ IEnumerator FetchUserProfileData(int playerID)
                     username = snapshot.Child("username").Value.ToString();
                     highscore = int.Parse(snapshot.Child("highscore").Value.ToString());
                     profileUsernameTxt.text = username;
-                    profileUserScoreTxt.text = ""+highscore;
+                    profileUserScoreTxt.text = ""+ PlayerPrefs.GetInt("Highscore");
                     userProfilePanel.SetActive(true);
                     usernamePanel.SetActive(false);
                 }
@@ -272,7 +275,40 @@ IEnumerator FetchUserProfileData(int playerID)
     }
 
 
+
+
+    IEnumerator CheckAndPushHighScore()
+    {
+    var task = db.Child("User_" + (totalUsers + 1).ToString()).GetValueAsync();
+    yield return new WaitUntil(() => task.IsCompleted);
+
+    if (task.IsFaulted)
+    {
+        Debug.LogError("Failed to retrieve high score from database");
+        yield break;
+    }
+
+    DataSnapshot snapshot = task.Result;
+
+    if (snapshot != null && snapshot.HasChildren)
+    {
+        int lastHighScore = int.Parse(snapshot.Child("highscore").Value.ToString());
+
+        if (PlayerPrefs.GetInt("Highscore") > lastHighScore)
+        {
+            db.Child("User_" + (totalUsers + 1).ToString()).Child("highscore").SetValueAsync(PlayerPrefs.GetInt("Highscore"));
+        }
+    }
 }
+
+
+
+
+
+
+}
+
+
 
 
 public class LeaderboardData
