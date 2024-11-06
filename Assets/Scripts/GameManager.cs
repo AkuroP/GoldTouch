@@ -54,8 +54,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GemsManager _gemsManager;
 
-    public int currenthighscore = 0;
-
     private void Awake()
     {
         if (instance == null)
@@ -68,9 +66,6 @@ public class GameManager : MonoBehaviour
     {
         textScoreToBeat.text = "/ " + scoreToBeat;
         ResetComboTimer();
-
-        //Recuperer et set le comparateur de highscore pour le leaderboard
-        int currenthighscore = GetComponent<FirebirdLeaderboardManager>().highscore;
     }
 
     public void ResetComboTimer() => _comboTimer = _comboMaxTimer;
@@ -106,11 +101,6 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
             
-        }
-        // Verifier et modifier le highscore
-        if (actualScore > currenthighscore){
-            currenthighscore = actualScore;
-            GetComponent<FirebirdLeaderboardManager>().highscore = currenthighscore;
         }
     }
 
