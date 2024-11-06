@@ -1721,7 +1721,6 @@ GameObject:
   - component: {fileID: 879622479}
   - component: {fileID: 879622478}
   - component: {fileID: 879622477}
-  - component: {fileID: 879622481}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1817,32 +1816,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &879622481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879622476}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2614e4f8114f6974c83d0e4aa79d3e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animatorsetting: {fileID: 0}
-  animatorShop: {fileID: 0}
-  audioMixer: {fileID: 24100000, guid: ab0ea16640999fe4ab52e08a9d226fa7, type: 2}
-  sceneToKeepObjects: MainMenu
-  showStars: MainMenu
-  nbStars: 0
-  nbStarsText: {fileID: 0}
-  starsVisuel: {fileID: 0}
-  homeButton: {fileID: 0}
-  donnees: []
-  levelNumber: 0
-  goldText: {fileID: 0}
-  nbFreeTurneBonus: 0
-  nbAutoMergeBonus: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

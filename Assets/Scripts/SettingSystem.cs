@@ -141,6 +141,7 @@ public class SettingSystem : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("NbStars"))
         {
+            
             nbStars = PlayerPrefs.GetInt("NbStars");
             Debug.Log("Nombre d'étoiles chargé: " + nbStars);
         }

@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
-
+        Debug.Log(SettingSystem.instance.donnees[0].starsPerLevel);
     }
     private void HandleComboEnd()
     {
