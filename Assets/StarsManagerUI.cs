@@ -61,20 +61,40 @@ public class StarsManagerUI : MonoBehaviour
 
     private void SaveData()
     {
+        // Sauvegarder les données de chaque niveau
         for (int i = 0; i < starsSpritesData.Length; i++)
         {
+            // Sauvegarde de l'état du niveau (débloqué ou non)
             PlayerPrefs.SetInt($"Level_{i}_Unlocked", starsSpritesData[i].isUnlocked ? 1 : 0);
+            // Sauvegarde de l'état de l'animation (déclenchée ou non)
             PlayerPrefs.SetInt($"Level_{i}_AnimationTriggered", starsSpritesData[i].animationTriggered ? 1 : 0);
+
+            // Sauvegarde des étoiles de chaque niveau (actives ou non)
+            for (int j = 0; j < starsSpritesData[i].starsSprites.Length; j++)
+            {
+                // Enregistrer chaque étoile (active ou non) pour chaque niveau
+                PlayerPrefs.SetInt($"Level_{i}_Star_{j}_Active", starsSpritesData[i].starsSprites[j].activeSelf ? 1 : 0);
+            }
         }
-        PlayerPrefs.Save(); // Ne pas oublier de sauvegarder
+        PlayerPrefs.Save(); // Sauvegarder les modifications
     }
 
     private void LoadData()
     {
+        // Charger les données pour chaque niveau
         for (int i = 0; i < starsSpritesData.Length; i++)
         {
+            // Charger l'état du niveau (débloqué ou non)
             starsSpritesData[i].isUnlocked = PlayerPrefs.GetInt($"Level_{i}_Unlocked", 0) == 1;
+            // Charger l'état de l'animation (déclenchée ou non)
             starsSpritesData[i].animationTriggered = PlayerPrefs.GetInt($"Level_{i}_AnimationTriggered", 0) == 1;
+
+            // Charger l'état des étoiles pour chaque niveau
+            for (int j = 0; j < starsSpritesData[i].starsSprites.Length; j++)
+            {
+                bool isActive = PlayerPrefs.GetInt($"Level_{i}_Star_{j}_Active", 0) == 1;
+                starsSpritesData[i].starsSprites[j].SetActive(isActive); // Restaurer l'état actif de chaque étoile
+            }
         }
     }
 }

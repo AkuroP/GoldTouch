@@ -54,10 +54,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GemsManager _gemsManager;
 
-    private int freeTurns = 0;
+
+    [HideInInspector]public int freeTurns = 0;
     private bool isEvolutionMode = false;
 
-
+    [Header("Bonus Text/Nombre")]
+    [SerializeField] private TextMeshProUGUI textFreeTurnBonus;
+    [SerializeField] private TextMeshProUGUI textAutoMergeBonus;
 
     private void Awake()
     {
@@ -72,6 +75,8 @@ public class GameManager : MonoBehaviour
         textScoreToBeat.text = "/ " + scoreToBeat;
         ResetComboTimer();
         LoadStarsPerLevel();
+        
+        UpdateBonusTexts();
     }
 
     public void ResetComboTimer() => _comboTimer = _comboMaxTimer;
@@ -82,6 +87,8 @@ public class GameManager : MonoBehaviour
         textActualScore.text =  actualScore.ToString();
         scoreFinal.text =  actualScore.ToString();
 
+
+        UpdateBonusTexts();
 
         Debug.Log(nbPlay);
         Debug.Log(freeTurns);
@@ -231,6 +238,7 @@ public class GameManager : MonoBehaviour
                 scoreStarsUI[0].SetActive(true);
             }
             SettingSystem.instance.nbStars += StarsIncrementation();
+            SaveStarsPerLevel();
         }
     }
     public void ActivateFreeTurns(int freeTurnCount)
@@ -305,30 +313,50 @@ public class GameManager : MonoBehaviour
 
     private void SaveStarsPerLevel()
     {
-        // Conversion des étoiles en chaîne et sauvegarde
-        string starsString = string.Join(",", SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel);
-        PlayerPrefs.SetString("StarsPerLevel_" + SettingSystem.instance.levelNumber, starsString);
+        // Sauvegarde les étoiles pour le niveau actuel
+        PlayerPrefs.SetInt("StarsPerLevel_" + SettingSystem.instance.levelNumber, SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel);
         PlayerPrefs.Save();
-        Debug.Log("Étoiles sauvegardées pour le niveau " + SettingSystem.instance.levelNumber + ": " + starsString);
     }
 
     private void LoadStarsPerLevel()
     {
-        // Chargement des étoiles à partir de PlayerPrefs
+        // Charge les étoiles pour le niveau actuel
         if (PlayerPrefs.HasKey("StarsPerLevel_" + SettingSystem.instance.levelNumber))
         {
-            string starsString = PlayerPrefs.GetString("StarsPerLevel_" + SettingSystem.instance.levelNumber);
-            string[] starsArray = starsString.Split(',');
-            for (int i = 0; i < starsArray.Length; i++)
-            {
-                if (int.TryParse(starsArray[i], out int star))
-                {
-                    SettingSystem.instance.donnees[i].starsPerLevel = star;
-                }
-            }
-            Debug.Log("Étoiles chargées pour le niveau " + SettingSystem.instance.levelNumber + ": " + starsString);
+            int stars = PlayerPrefs.GetInt("StarsPerLevel_" + SettingSystem.instance.levelNumber);
+            SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel = stars;
         }
     }
 
-   
+
+
+    //private void LoadStarsPerLevel()
+    //{
+    //    // Chargement des étoiles à partir de PlayerPrefs
+    //    if (PlayerPrefs.HasKey("StarsPerLevel_" + SettingSystem.instance.levelNumber))
+    //    {
+    //        string starsString = PlayerPrefs.GetString("StarsPerLevel_" + SettingSystem.instance.levelNumber);
+    //        string[] starsArray = starsString.Split(',');
+    //        for (int i = 0; i < starsArray.Length; i++)
+    //        {
+    //            if (int.TryParse(starsArray[i], out int star))
+    //            {
+    //                SettingSystem.instance.donnees[i].starsPerLevel = star;
+    //            }
+    //        }
+    //        Debug.Log("Étoiles chargées pour le niveau " + SettingSystem.instance.levelNumber + ": " + starsString);
+    //    }
+    //}
+
+
+    private void UpdateBonusTexts()
+    {
+        if (SettingSystem.instance != null)
+        {
+            textFreeTurnBonus.text = SettingSystem.instance.nbFreeTurneBonus.ToString();
+            textAutoMergeBonus.text = SettingSystem.instance.nbAutoMergeBonus.ToString();
+        }
+    }
+
+
 }

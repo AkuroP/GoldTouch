@@ -38,6 +38,13 @@ public class Bonus
         maxAmount = max;
     }
 }
+
+public enum CofferType
+{
+    Standard,
+    Rare,
+    Legendary
+}
 public class SettingSystem : MonoBehaviour
 {
     
@@ -110,9 +117,9 @@ public class SettingSystem : MonoBehaviour
 
         InitializeGold();
         LoadStars();
+        LoadBonuses();
         UpdateStarsText();
         UpdateGoldText();
-
         InitializeBonuses();
     }
 
@@ -120,6 +127,7 @@ public class SettingSystem : MonoBehaviour
     {
         Save();
         SaveGold();
+        SaveBonuses();
     }
 
     public void Save()
@@ -141,6 +149,23 @@ public class SettingSystem : MonoBehaviour
             Debug.Log("Aucune donnée d'étoiles trouvée, utilisant le nombre par défaut.");
             nbStars = 0;
         }
+    }
+
+    public void SaveBonuses()
+    {
+        PlayerPrefs.SetInt("nbFreeTurneBonus", nbFreeTurneBonus);
+        PlayerPrefs.SetInt("nbAutoMergeBonus", nbAutoMergeBonus);
+        PlayerPrefs.Save();
+    }
+
+    // Méthode pour charger les valeurs des bonus
+    public void LoadBonuses()
+    {
+        // Charger les bonus si les clés existent dans PlayerPrefs
+        nbFreeTurneBonus = PlayerPrefs.HasKey("nbFreeTurneBonus") ? PlayerPrefs.GetInt("nbFreeTurneBonus") : 0;
+        nbAutoMergeBonus = PlayerPrefs.HasKey("nbAutoMergeBonus") ? PlayerPrefs.GetInt("nbAutoMergeBonus") : 0;
+
+        Debug.Log("Bonuses chargés: nbFreeTurneBonus = " + nbFreeTurneBonus + ", nbAutoMergeBonus = " + nbAutoMergeBonus);
     }
 
     private void UpdateStarsText()
@@ -170,9 +195,7 @@ public class SettingSystem : MonoBehaviour
 
 
         nbStarsText.text = nbStars.ToString();
-        UpdateGoldText();
-        Debug.Log("nbAutoMergeBonus : " +nbAutoMergeBonus);
-        Debug.Log("nbFreeTurneBonus : " + nbFreeTurneBonus);
+        UpdateGoldText();        
     }
 
     
@@ -354,20 +377,36 @@ public class SettingSystem : MonoBehaviour
         }
     }
 
-    public void OnCofferButtonPress(int CofferPrice)
+    public void OnCofferButtonPress(int cofferTypeIndex)
     {
-        if (goldHardCurrency >= CofferPrice) // Vérifie si le joueur peut se permettre d'acheter le coffre
-        {
-            // Ici, vous pouvez ajouter le code pour faire ce qui doit être fait si le joueur a suffisamment de gold
-            Debug.Log("Coffre acheté !");
-            // Remplacez ceci par le code d'achat réel
-            goldHardCurrency -= CofferPrice;    
+        // Convertir l'index en type de coffre
+        CofferType cofferType = (CofferType)cofferTypeIndex;
 
-            GenerateRandomBonuses(CofferPrice);
+        int cofferPrice = GetCofferPrice(cofferType);
+
+        if (goldHardCurrency >= cofferPrice)
+        {
+            Debug.Log("Coffre acheté !");
+            goldHardCurrency -= cofferPrice;
+            GenerateRandomBonuses(cofferType);
+            SaveGold();
+            UpdateGoldText();
         }
         else
         {
             Debug.Log("Pas assez de gold pour acheter le coffre !");
+        }
+    }
+    private int GetCofferPrice(CofferType cofferType)
+    {
+        switch (cofferType)
+        {
+            case CofferType.Rare:
+                return 750;
+            case CofferType.Legendary:
+                return 2000;
+            default:
+                return 250;
         }
     }
 
@@ -375,36 +414,69 @@ public class SettingSystem : MonoBehaviour
     {
         bonuses = new List<Bonus>
         {
-            new Bonus("FreeLunch", 1, 3), // 1 à 3 exemplaires de Bonus1
-            new Bonus("MergeBonus", 1, 3)  // 1 à 5 exemplaires de Bonus2
+            new Bonus("FreeLunch", 1, 1), // 1 à 3 exemplaires de Bonus1
+            new Bonus("MergeBonus", 1, 1)  // 1 à 5 exemplaires de Bonus2
         };
     }
 
-    private void GenerateRandomBonuses(int cofferPrice)
+    private void GenerateRandomBonuses(CofferType cofferType)
     {
-        int bonusCount = Random.Range(1, (cofferPrice / 100 + 1)); // Le nombre de bonus dépend du prix du coffre
+        int minBonusCount, maxBonusCount;
 
+        // Définir le nombre de bonus selon le type de coffre
+        switch (cofferType)
+        {
+            case CofferType.Rare:
+                minBonusCount = 3;
+                maxBonusCount = 6;
+                break;
+            case CofferType.Legendary:
+                minBonusCount = 6;
+                maxBonusCount = 12;
+                break;
+            default: // Standard
+                minBonusCount = 1;
+                maxBonusCount = 3;
+                break;
+        }
+
+        // Calculer le nombre de bonus à générer
+        int bonusCount = Random.Range(minBonusCount, maxBonusCount + 1);
+        Debug.Log($"Type de coffre: {cofferType}, Nombre de bonus à générer: {bonusCount}");
+
+        // Variables pour suivre le nombre total de chaque type de bonus
+        int totalFreeLunchBonus = 0;
+        int totalMergeBonus = 0;
+
+        // Générer chaque bonus
         for (int i = 0; i < bonusCount; i++)
         {
-            // Sélectionne un bonus aléatoire
+            // Sélectionner un bonus aléatoire
             Bonus selectedBonus = bonuses[Random.Range(0, bonuses.Count)];
 
-            // Détermine le nombre d'exemplaires de ce bonus
+            // Générer une quantité aléatoire pour ce bonus
             int amount = Random.Range(selectedBonus.minAmount, selectedBonus.maxAmount + 1);
+            Debug.Log($"Bonus généré : {selectedBonus.bonusName}, Quantité : {amount}");
 
-            // Affiche le bonus reçu
-            Debug.Log($"Vous avez reçu {amount} exemplaires de {selectedBonus.bonusName} !");
-
-            if(selectedBonus == bonuses[0])
+            // Ajouter la quantité au type de bonus correspondant
+            if (selectedBonus.bonusName == "FreeLunch")
             {
                 nbFreeTurneBonus += amount;
+                totalFreeLunchBonus += amount;
             }
-            if (selectedBonus == bonuses[1])
+            else if (selectedBonus.bonusName == "MergeBonus")
             {
                 nbAutoMergeBonus += amount;
+                totalMergeBonus += amount;
             }
         }
+
+        // Log final pour le nombre total de chaque bonus
+        Debug.Log($"Total FreeLunch Bonus : {totalFreeLunchBonus}");
+        Debug.Log($"Total Merge Bonus : {totalMergeBonus}");
+
+        SaveBonuses();
     }
-    
+
 
 }

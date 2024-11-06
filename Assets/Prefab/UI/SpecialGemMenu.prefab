@@ -377,9 +377,9 @@ RectTransform:
   - {fileID: 7258928376312925890}
   m_Father: {fileID: 2284807409558701018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -623, y: 41}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -27.999989, y: 43.000076}
   m_SizeDelta: {x: 211.54681, y: 211.54688}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &8967303014839749367
@@ -539,7 +539,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8316034258253687081}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2448305600865829250
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,9 +586,9 @@ RectTransform:
   - {fileID: 4665754785676891291}
   m_Father: {fileID: 2284807409558701018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -933, y: 41}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 202, y: 43}
   m_SizeDelta: {x: 211.54681, y: 211.54688}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &1378867836224176650
@@ -1264,9 +1276,9 @@ RectTransform:
   - {fileID: 9048465002826442810}
   m_Father: {fileID: 2284807409558701018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -330.05, y: 41}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 264.95, y: 43.000076}
   m_SizeDelta: {x: 211.54681, y: 211.54688}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &6223404897353426993
@@ -1561,7 +1573,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   freeTurnButton: {fileID: 5069225010021527009}
   mergeGemsButton: {fileID: 3259922544771009239}
-  evolveGemButton: {fileID: 4205432314714846486}
-  freeTurnCount: 5
-  mergeUses: 3
-  evolveUses: 3
+  nbFreeTurn: 5
