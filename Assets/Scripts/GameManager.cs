@@ -56,11 +56,17 @@ public class GameManager : MonoBehaviour
 
 
     [HideInInspector]public int freeTurns = 0;
-    private bool isEvolutionMode = false;
+    //private bool isEvolutionMode = false;
 
     [Header("Bonus Text/Nombre")]
     [SerializeField] private TextMeshProUGUI textFreeTurnBonus;
     [SerializeField] private TextMeshProUGUI textAutoMergeBonus;
+
+
+    public bool isEndless = false;
+
+
+    
 
     private void Awake()
     {
@@ -68,6 +74,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+        
 
     }
     private void Start()
@@ -80,45 +87,47 @@ public class GameManager : MonoBehaviour
     }
 
     public void ResetComboTimer() => _comboTimer = _comboMaxTimer;
-    
 
-    void Update()
+
+    private void Update()
     {
-        textActualScore.text =  actualScore.ToString();
-        scoreFinal.text =  actualScore.ToString();
-
+        textActualScore.text = actualScore.ToString();
+        scoreFinal.text = actualScore.ToString();
 
         UpdateBonusTexts();
-
-        Debug.Log(nbPlay);
-        Debug.Log(freeTurns);
 
         if (_inCombo)
         {
             if (_comboTimer > 0) _comboTimer -= Time.deltaTime;
             else
             {
-                _canPlay = false;
-                if (_combo < 2)
-                {
-                    _canPlay = true;
-                    _gemsManager.NextGem();
-                }
-                else if (_combo >= 2 && _combo < 5) Instantiate(_messages[0], Vector3.zero, Quaternion.identity);
-                else if(_combo >= 5) Instantiate(_messages[1], Vector3.zero, Quaternion.identity);
-                _combo = 0;
-                _inCombo = false;
+                HandleComboEnd();
             }
-
         }
 
-        if (scoreToBeat <= -1) return;
-        if(actualScore >= scoreToBeat)
+        
+        if (scoreToBeat > 0 && actualScore >= scoreToBeat)
         {
             EndGame();
-            
         }
+
     }
+    private void HandleComboEnd()
+    {
+        _canPlay = false;
+        if (_combo < 2)
+        {
+            _canPlay = true;
+            _gemsManager.NextGem();
+        }
+        else if (_combo >= 2 && _combo < 5) Instantiate(_messages[0], Vector3.zero, Quaternion.identity);
+        else if (_combo >= 5) Instantiate(_messages[1], Vector3.zero, Quaternion.identity);
+        _combo = 0;
+        _inCombo = false;
+    }
+
+    
+    
 
     public IEnumerator IncreaseScore(int score)
     {
@@ -224,21 +233,25 @@ public class GameManager : MonoBehaviour
             Debug.Log("You win");
             winScreen.SetActive(true);
             AudioManager.instance.PlayRandom(SoundState.VICTORY);
-            if (nbPlay < countForStars[0])
-            {
-                scoreStarsUI[2].SetActive(true);
-            }
-
-            else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
-            {
-                scoreStarsUI[1].SetActive(true);
-            }
-            else
-            {
-                scoreStarsUI[0].SetActive(true);
-            }
+            UpdateStarUI();
             SettingSystem.instance.nbStars += StarsIncrementation();
             SaveStarsPerLevel();
+        }
+    }
+
+    private void UpdateStarUI()
+    {
+        if (nbPlay < countForStars[0])
+        {
+            scoreStarsUI[2].SetActive(true);
+        }
+        else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
+        {
+            scoreStarsUI[1].SetActive(true);
+        }
+        else
+        {
+            scoreStarsUI[0].SetActive(true);
         }
     }
     public void ActivateFreeTurns(int freeTurnCount)
