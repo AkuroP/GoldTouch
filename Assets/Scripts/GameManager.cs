@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -108,6 +108,14 @@ public class GameManager : MonoBehaviour
         
         if (scoreToBeat > 0 && actualScore >= scoreToBeat)
         {
+
+            // Verifier et modifier le highscore
+            if (actualScore > PlayerPrefs.GetInt("Highscore"))
+            {
+                PlayerPrefs.SetInt("Highscore", actualScore);
+            }
+
+            
             EndGame();
         }
         Debug.Log(SettingSystem.instance.donnees[0].starsPerLevel);
