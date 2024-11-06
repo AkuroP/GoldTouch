@@ -23,10 +23,33 @@ public class Data
         bools = new bool[3]; // Crée un tableau de 3 booléens pour chaque entier
     }
 }
+
+[System.Serializable]
+public class Bonus
+{
+    public string bonusName; // Nom du bonus
+    public int minAmount; // Montant minimum
+    public int maxAmount; // Montant maximum
+
+    public Bonus(string name, int min, int max)
+    {
+        bonusName = name;
+        minAmount = min;
+        maxAmount = max;
+    }
+}
+
+public enum CofferType
+{
+    Standard,
+    Rare,
+    Legendary
+}
 public class SettingSystem : MonoBehaviour
 {
     
-    [SerializeField]private  Animator animator;
+    [SerializeField]private  Animator animatorsetting;
+    [SerializeField]private  Animator animatorShop;
 
 
     [SerializeField] private AudioMixer audioMixer;
@@ -34,14 +57,8 @@ public class SettingSystem : MonoBehaviour
     [Scene]
     public string sceneToKeepObjects;
 
-    //[Scene]
-    //public string hideInMenu;
-
     [Scene]
     public string showStars;
-
-    //[Scene]
-    //public string levelToLoad;
 
 
     private bool animationForward = false;
@@ -66,6 +83,15 @@ public class SettingSystem : MonoBehaviour
 
     public static SettingSystem instance;
 
+    [SerializeField] private TextMeshProUGUI goldText;
+
+    private int goldHardCurrency;
+
+    private List<Bonus> bonuses;
+
+    public int nbFreeTurneBonus;
+    public int nbAutoMergeBonus;
+
     private void Awake()
     {
         if (instance == null)
@@ -88,6 +114,63 @@ public class SettingSystem : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         sfxBaseVolume = GetMixerVolume();
+
+        InitializeGold();
+        LoadStars();
+        LoadBonuses();
+        UpdateStarsText();
+        UpdateGoldText();
+        InitializeBonuses();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Save();
+        SaveGold();
+        SaveBonuses();
+    }
+
+    public void Save()
+    {
+        PlayerPrefs.SetInt("NbStars", nbStars);
+        PlayerPrefs.Save();
+        
+    }
+
+    public void LoadStars()
+    {
+        if (PlayerPrefs.HasKey("NbStars"))
+        {
+            nbStars = PlayerPrefs.GetInt("NbStars");
+            Debug.Log("Nombre d'étoiles chargé: " + nbStars);
+        }
+        else
+        {
+            Debug.Log("Aucune donnée d'étoiles trouvée, utilisant le nombre par défaut.");
+            nbStars = 0;
+        }
+    }
+
+    public void SaveBonuses()
+    {
+        PlayerPrefs.SetInt("nbFreeTurneBonus", nbFreeTurneBonus);
+        PlayerPrefs.SetInt("nbAutoMergeBonus", nbAutoMergeBonus);
+        PlayerPrefs.Save();
+    }
+
+    // Méthode pour charger les valeurs des bonus
+    public void LoadBonuses()
+    {
+        // Charger les bonus si les clés existent dans PlayerPrefs
+        nbFreeTurneBonus = PlayerPrefs.HasKey("nbFreeTurneBonus") ? PlayerPrefs.GetInt("nbFreeTurneBonus") : 0;
+        nbAutoMergeBonus = PlayerPrefs.HasKey("nbAutoMergeBonus") ? PlayerPrefs.GetInt("nbAutoMergeBonus") : 0;
+
+        Debug.Log("Bonuses chargés: nbFreeTurneBonus = " + nbFreeTurneBonus + ", nbAutoMergeBonus = " + nbAutoMergeBonus);
+    }
+
+    private void UpdateStarsText()
+    {
+        nbStarsText.text = nbStars.ToString();
     }
 
     private void Update()
@@ -100,10 +183,7 @@ public class SettingSystem : MonoBehaviour
         {
             EnableObjects();
         }
-        //if (SceneManager.GetActiveScene().name == hideInMenu)
-        //{
-        //    UnHideObjects();
-        //}
+        
         if (SceneManager.GetActiveScene().name == showStars)
         {
             ShowTotalStars();
@@ -114,11 +194,11 @@ public class SettingSystem : MonoBehaviour
         }
 
 
-
-
         nbStarsText.text = nbStars.ToString();
-
+        UpdateGoldText();        
     }
+
+    
     float GetMixerVolume()
     {
         float volume = 0f;
@@ -135,12 +215,12 @@ public class SettingSystem : MonoBehaviour
     {
         if (animationForward)
         {
-            animator.SetBool("IsOn", false);
+            animatorsetting.SetBool("IsOn", false);
             animationForward = false;
         }
         else
         {
-            animator.SetBool("IsOn", true);
+            animatorsetting.SetBool("IsOn", true);
             animationForward = true;
         }
         
@@ -159,6 +239,18 @@ public class SettingSystem : MonoBehaviour
     public void Settings()
     {
         AudioManager.instance.PlayRandom(SoundState.SETTINGS);
+    }
+
+    public void Shop()
+    {
+        AudioManager.instance.PlayRandom(SoundState.BUTTON);
+        animatorShop.SetBool("IsShop", true);
+    }
+    public void ShopBack()
+    {
+        AudioManager.instance.PlayRandom(SoundState.BUTTON);
+        animatorShop.SetBool("IsShop", false);
+        Debug.Log("je evien du shop l'ami");
     }
 
     public void EnableVibration()
@@ -230,10 +322,6 @@ public class SettingSystem : MonoBehaviour
         }
     }
 
-    //void UnHideObjects()
-    //{
-    //    homeButton.SetActive(true);
-    //}
 
     void ShowTotalStars()
     {
@@ -244,6 +332,150 @@ public class SettingSystem : MonoBehaviour
     {
         starsVisuel.SetActive(false);
 
+    }
+
+
+    private void InitializeGold()
+    {
+        // Charger la valeur de PlayerPrefs si elle existe, sinon initialiser avec une valeur par défaut (ex. : 100)
+        goldHardCurrency = PlayerPrefs.GetInt("GoldHardCurrency", 500); // Valeur par défaut 100
+    }
+
+    public void SaveGold()
+    {
+        PlayerPrefs.SetInt("GoldHardCurrency", goldHardCurrency);
+        PlayerPrefs.Save();
+    }
+
+    // Méthode pour mettre à jour l'UI du texte de la monnaie
+    public void UpdateGoldText()
+    {
+        // Supposons que vous ayez un TextMeshProUGUI nommé goldText
+        goldText.text = goldHardCurrency.ToString();
+    }
+
+    public void AddGold(int amount)
+    {
+        goldHardCurrency += amount;
+        SaveGold();
+        UpdateGoldText();
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (goldHardCurrency >= amount)
+        {
+            goldHardCurrency -= amount;
+            SaveGold();
+            UpdateGoldText();
+            return true;
+        }
+        else
+        {
+            Debug.Log("Pas assez de monnaie !");
+            return false;
+        }
+    }
+
+    public void OnCofferButtonPress(int cofferTypeIndex)
+    {
+        // Convertir l'index en type de coffre
+        CofferType cofferType = (CofferType)cofferTypeIndex;
+
+        int cofferPrice = GetCofferPrice(cofferType);
+
+        if (goldHardCurrency >= cofferPrice)
+        {
+            Debug.Log("Coffre acheté !");
+            goldHardCurrency -= cofferPrice;
+            GenerateRandomBonuses(cofferType);
+            SaveGold();
+            UpdateGoldText();
+        }
+        else
+        {
+            Debug.Log("Pas assez de gold pour acheter le coffre !");
+        }
+    }
+    private int GetCofferPrice(CofferType cofferType)
+    {
+        switch (cofferType)
+        {
+            case CofferType.Rare:
+                return 750;
+            case CofferType.Legendary:
+                return 2000;
+            default:
+                return 250;
+        }
+    }
+
+    private void InitializeBonuses()
+    {
+        bonuses = new List<Bonus>
+        {
+            new Bonus("FreeLunch", 1, 1), // 1 à 3 exemplaires de Bonus1
+            new Bonus("MergeBonus", 1, 1)  // 1 à 5 exemplaires de Bonus2
+        };
+    }
+
+    private void GenerateRandomBonuses(CofferType cofferType)
+    {
+        int minBonusCount, maxBonusCount;
+
+        // Définir le nombre de bonus selon le type de coffre
+        switch (cofferType)
+        {
+            case CofferType.Rare:
+                minBonusCount = 3;
+                maxBonusCount = 6;
+                break;
+            case CofferType.Legendary:
+                minBonusCount = 6;
+                maxBonusCount = 12;
+                break;
+            default: // Standard
+                minBonusCount = 1;
+                maxBonusCount = 3;
+                break;
+        }
+
+        // Calculer le nombre de bonus à générer
+        int bonusCount = Random.Range(minBonusCount, maxBonusCount + 1);
+        Debug.Log($"Type de coffre: {cofferType}, Nombre de bonus à générer: {bonusCount}");
+
+        // Variables pour suivre le nombre total de chaque type de bonus
+        int totalFreeLunchBonus = 0;
+        int totalMergeBonus = 0;
+
+        // Générer chaque bonus
+        for (int i = 0; i < bonusCount; i++)
+        {
+            // Sélectionner un bonus aléatoire
+            Bonus selectedBonus = bonuses[Random.Range(0, bonuses.Count)];
+
+            // Générer une quantité aléatoire pour ce bonus
+            int amount = Random.Range(selectedBonus.minAmount, selectedBonus.maxAmount + 1);
+            Debug.Log($"Bonus généré : {selectedBonus.bonusName}, Quantité : {amount}");
+
+            // Ajouter la quantité au type de bonus correspondant
+            if (selectedBonus.bonusName == "FreeLunch")
+            {
+                nbFreeTurneBonus += amount;
+                totalFreeLunchBonus += amount;
+            }
+            else if (selectedBonus.bonusName == "MergeBonus")
+            {
+                nbAutoMergeBonus += amount;
+                totalMergeBonus += amount;
+            }
+        }
+
+        // Log final pour le nombre total de chaque bonus
+        Debug.Log($"Total FreeLunch Bonus : {totalFreeLunchBonus}");
+        Debug.Log($"Total Merge Bonus : {totalMergeBonus}");
+
+        SaveBonuses();
     }
 
 

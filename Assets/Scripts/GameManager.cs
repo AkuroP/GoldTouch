@@ -55,59 +55,79 @@ public class GameManager : MonoBehaviour
     private GemsManager _gemsManager;
 
 
+    [HideInInspector]public int freeTurns = 0;
+    //private bool isEvolutionMode = false;
+
+    [Header("Bonus Text/Nombre")]
+    [SerializeField] private TextMeshProUGUI textFreeTurnBonus;
+    [SerializeField] private TextMeshProUGUI textAutoMergeBonus;
+
+
+    public bool isEndless = false;
+
+
+    
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
+        
 
     }
     private void Start()
     {
         textScoreToBeat.text = "/ " + scoreToBeat;
         ResetComboTimer();
+        LoadStarsPerLevel();
+        
+        UpdateBonusTexts();
     }
 
     public void ResetComboTimer() => _comboTimer = _comboMaxTimer;
-    
 
-    void Update()
+
+    private void Update()
     {
-        textActualScore.text =  actualScore.ToString();
-        scoreFinal.text =  actualScore.ToString();
+        textActualScore.text = actualScore.ToString();
+        scoreFinal.text = actualScore.ToString();
 
+        UpdateBonusTexts();
 
         if (_inCombo)
         {
             if (_comboTimer > 0) _comboTimer -= Time.deltaTime;
             else
             {
-                _canPlay = false;
-                if (_combo < 2)
-                {
-                    _canPlay = true;
-                    _gemsManager.NextGem();
-                }
-                else if (_combo >= 2 && _combo < 5) Instantiate(_messages[0], Vector3.zero, Quaternion.identity);
-                else if(_combo >= 5) Instantiate(_messages[1], Vector3.zero, Quaternion.identity);
-                _combo = 0;
-                _inCombo = false;
+                HandleComboEnd();
             }
-
         }
 
-        if (scoreToBeat <= -1) return;
-        if(actualScore >= scoreToBeat)
+        
+        if (scoreToBeat > 0 && actualScore >= scoreToBeat)
         {
             EndGame();
-            
         }
-        // Verifier et modifier le highscore
-        if (actualScore > PlayerPrefs.GetInt("Highscore")){
-            PlayerPrefs.SetInt("Highscore", actualScore);
-        }
+
     }
+    private void HandleComboEnd()
+    {
+        _canPlay = false;
+        if (_combo < 2)
+        {
+            _canPlay = true;
+            _gemsManager.NextGem();
+        }
+        else if (_combo >= 2 && _combo < 5) Instantiate(_messages[0], Vector3.zero, Quaternion.identity);
+        else if (_combo >= 5) Instantiate(_messages[1], Vector3.zero, Quaternion.identity);
+        _combo = 0;
+        _inCombo = false;
+    }
+
+    
+    
 
     public IEnumerator IncreaseScore(int score)
     {
@@ -213,21 +233,157 @@ public class GameManager : MonoBehaviour
             Debug.Log("You win");
             winScreen.SetActive(true);
             AudioManager.instance.PlayRandom(SoundState.VICTORY);
-            if (nbPlay < countForStars[0])
+            if (!isEndless)
             {
-                scoreStarsUI[2].SetActive(true);
-            }
+                UpdateStarUI();
 
-            else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
-            {
-                scoreStarsUI[1].SetActive(true);
             }
             else
             {
-                scoreStarsUI[0].SetActive(true);
+                UpdateStarUIEndless();
             }
             SettingSystem.instance.nbStars += StarsIncrementation();
+            SaveStarsPerLevel();
         }
     }
+
+    private void UpdateStarUI()
+    {
+        if (nbPlay < countForStars[0])
+        {
+            scoreStarsUI[2].SetActive(true);
+        }
+        else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
+        {
+            scoreStarsUI[1].SetActive(true);
+        }
+        else
+        {
+            scoreStarsUI[0].SetActive(true);
+        }
+    }
+
+    private void UpdateStarUIEndless()
+    {
+        scoreStarsUI[3].SetActive(true);
+
+    }
+    public void ActivateFreeTurns(int freeTurnCount)
+    {
+        freeTurns = freeTurnCount;
+        Debug.Log("feee");
+
+    }
+
+    public void IncrementTurn()
+    {
+        if (freeTurns > 0)
+        {
+            freeTurns--;
+        }
+        else
+        {
+            nbPlay++;
+        }
+    }
+
+    // Fonctionnalité du deuxième bouton : Fusionner les gemmes identiques
+    public void MergeIdenticalGems()
+    {
+        // Récupère toutes les gemmes présentes dans la scène
+        GemsFusion[] activeGems = FindObjectsOfType<GemsFusion>();
+
+        // Si aucune gemme n'est trouvée, on arrête la méthode
+        if (activeGems.Length == 0)
+        {
+            Debug.LogWarning("Aucune gemme active trouvée dans la scène !");
+            return;
+        }
+
+        Dictionary<int, List<GameObject>> gemGroups = new Dictionary<int, List<GameObject>>();
+
+        // Récupérer la position de spawn depuis le GemsManager
+        Vector3 spawnPosition = _gemsManager._spawnPoint.position;
+
+        // Ajout des gemmes dans des groupes basés sur leur type
+        foreach (var gemFusion in activeGems)
+        {
+            // Ignore la gemme si elle est à la même position que _spawnPoint
+            if (gemFusion.transform.position == spawnPosition)
+            {
+                continue;
+            }
+
+            int gemTypeIndex = gemFusion.gemsIndex;
+            if (!gemGroups.ContainsKey(gemTypeIndex))
+                gemGroups[gemTypeIndex] = new List<GameObject>();
+
+            gemGroups[gemTypeIndex].Add(gemFusion.gameObject);
+        }
+
+        // Fusion des gemmes par groupes de 2 dans chaque groupe de type de gemme
+        foreach (var group in gemGroups.Values)
+        {
+            for (int i = 0; i < group.Count - 1; i += 2) // Boucle par étapes de 2
+            {
+                GameObject gem1 = group[i];
+                GameObject gem2 = group[i + 1];
+
+                // Vérifie si les gemmes sont nulles (au cas où une gemme aurait été détruite précédemment)
+                if (gem1 == null || gem2 == null) continue;
+
+                // Appel de FusionnerGroupe avec une liste de 2 gemmes
+                _gemsManager.FusionnerGroupe(new List<GameObject> { gem1, gem2 });
+            }
+        }
+    }
+
+    private void SaveStarsPerLevel()
+    {
+        // Sauvegarde les étoiles pour le niveau actuel
+        PlayerPrefs.SetInt("StarsPerLevel_" + SettingSystem.instance.levelNumber, SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadStarsPerLevel()
+    {
+        // Charge les étoiles pour le niveau actuel
+        if (PlayerPrefs.HasKey("StarsPerLevel_" + SettingSystem.instance.levelNumber))
+        {
+            int stars = PlayerPrefs.GetInt("StarsPerLevel_" + SettingSystem.instance.levelNumber);
+            SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel = stars;
+        }
+    }
+
+
+
+    //private void LoadStarsPerLevel()
+    //{
+    //    // Chargement des étoiles à partir de PlayerPrefs
+    //    if (PlayerPrefs.HasKey("StarsPerLevel_" + SettingSystem.instance.levelNumber))
+    //    {
+    //        string starsString = PlayerPrefs.GetString("StarsPerLevel_" + SettingSystem.instance.levelNumber);
+    //        string[] starsArray = starsString.Split(',');
+    //        for (int i = 0; i < starsArray.Length; i++)
+    //        {
+    //            if (int.TryParse(starsArray[i], out int star))
+    //            {
+    //                SettingSystem.instance.donnees[i].starsPerLevel = star;
+    //            }
+    //        }
+    //        Debug.Log("Étoiles chargées pour le niveau " + SettingSystem.instance.levelNumber + ": " + starsString);
+    //    }
+    //}
+
+
+    private void UpdateBonusTexts()
+    {
+        if (SettingSystem.instance != null)
+        {
+            textFreeTurnBonus.text = SettingSystem.instance.nbFreeTurneBonus.ToString();
+            textAutoMergeBonus.text = SettingSystem.instance.nbAutoMergeBonus.ToString();
+        }
+    }
+
 
 }
