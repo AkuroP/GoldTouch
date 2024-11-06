@@ -151,7 +151,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 1.28, z: 0}
-  m_LocalScale: {x: 4.5678964, y: 0.40667564, z: 0.9689171}
+  m_LocalScale: {x: 4.5678964, y: 0.19642432, z: 0.9689171}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 659633959}
@@ -2886,7 +2886,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015259}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1257.6014, y: 431.4578}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2108112021
