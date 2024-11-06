@@ -233,7 +233,15 @@ public class GameManager : MonoBehaviour
             Debug.Log("You win");
             winScreen.SetActive(true);
             AudioManager.instance.PlayRandom(SoundState.VICTORY);
-            UpdateStarUI();
+            if (!isEndless)
+            {
+                UpdateStarUI();
+
+            }
+            else
+            {
+                UpdateStarUIEndless();
+            }
             SettingSystem.instance.nbStars += StarsIncrementation();
             SaveStarsPerLevel();
         }
@@ -253,6 +261,12 @@ public class GameManager : MonoBehaviour
         {
             scoreStarsUI[0].SetActive(true);
         }
+    }
+
+    private void UpdateStarUIEndless()
+    {
+        scoreStarsUI[3].SetActive(true);
+
     }
     public void ActivateFreeTurns(int freeTurnCount)
     {

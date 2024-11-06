@@ -16,6 +16,7 @@ public class TriggerLoseEndless : MonoBehaviour
         {
             HandleEndlessMode();
         }
+        Debug.Log(currentTimer);
     }
 
     private void OnTriggerEnter(Collider other)
