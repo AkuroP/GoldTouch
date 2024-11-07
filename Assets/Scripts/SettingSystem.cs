@@ -19,7 +19,7 @@ public class Data
     // Constructeur pour initialiser les tableaux avec la taille spécifiée
     public Data(int size)
     {
-        
+
         bools = new bool[3]; // Crée un tableau de 3 booléens pour chaque entier
     }
 }
@@ -47,9 +47,9 @@ public enum CofferType
 }
 public class SettingSystem : MonoBehaviour
 {
-    
-    [SerializeField]private  Animator animatorsetting;
-    [SerializeField]private  Animator animatorShop;
+
+    [SerializeField] private Animator animatorsetting;
+    [SerializeField] private Animator animatorShop;
 
 
     [SerializeField] private AudioMixer audioMixer;
@@ -114,10 +114,11 @@ public class SettingSystem : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         sfxBaseVolume = GetMixerVolume();
-
+        LoadBoolValues();
         InitializeGold();
         LoadStars();
         LoadBonuses();
+
         UpdateStarsText();
         UpdateGoldText();
         InitializeBonuses();
@@ -130,17 +131,37 @@ public class SettingSystem : MonoBehaviour
         SaveBonuses();
     }
 
+    private void LoadBoolValues()
+    {
+        for (int level = 0; level < donnees.Length; level++)
+        {
+
+            for (int i = 0; i < donnees[level].bools.Length; i++)
+            {
+                string key = $"Level_{level}_Bool_{i}";
+
+                if (PlayerPrefs.HasKey(key))
+                {
+                    donnees[level].bools[i] = PlayerPrefs.GetInt(key) == 1;
+                }
+            }
+            Debug.Log("Booléens chargés pour le niveau : " + level);
+        }
+
+    }
+
     public void Save()
     {
         PlayerPrefs.SetInt("NbStars", nbStars);
         PlayerPrefs.Save();
-        
+
     }
 
     public void LoadStars()
     {
         if (PlayerPrefs.HasKey("NbStars"))
         {
+
             nbStars = PlayerPrefs.GetInt("NbStars");
             Debug.Log("Nombre d'étoiles chargé: " + nbStars);
         }
@@ -179,11 +200,11 @@ public class SettingSystem : MonoBehaviour
         {
             DisableObjects();
         }
-        else 
+        else
         {
             EnableObjects();
         }
-        
+
         if (SceneManager.GetActiveScene().name == showStars)
         {
             ShowTotalStars();
@@ -195,10 +216,10 @@ public class SettingSystem : MonoBehaviour
 
 
         nbStarsText.text = nbStars.ToString();
-        UpdateGoldText();        
+        UpdateGoldText();
     }
 
-    
+
     float GetMixerVolume()
     {
         float volume = 0f;
@@ -223,9 +244,9 @@ public class SettingSystem : MonoBehaviour
             animatorsetting.SetBool("IsOn", true);
             animationForward = true;
         }
-        
+
     }
- 
+
     public void QuitGame()
     {
         Application.Quit();
@@ -265,7 +286,7 @@ public class SettingSystem : MonoBehaviour
 
     public void Vibrate()
     {
-        if(isVibration) Handheld.Vibrate();
+        if (isVibration) Handheld.Vibrate();
     }
 
     // Fonction pour désactiver les vibrations
@@ -477,6 +498,10 @@ public class SettingSystem : MonoBehaviour
 
         SaveBonuses();
     }
+
+
+
+
 
 
 }

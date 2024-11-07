@@ -82,8 +82,9 @@ public class GameManager : MonoBehaviour
         textScoreToBeat.text = "/ " + scoreToBeat;
         ResetComboTimer();
         LoadStarsPerLevel();
-        
         UpdateBonusTexts();
+
+        //LoadBoolValues();
     }
 
     public void ResetComboTimer() => _comboTimer = _comboMaxTimer;
@@ -118,7 +119,7 @@ public class GameManager : MonoBehaviour
             
             EndGame();
         }
-
+        Debug.Log(SettingSystem.instance.donnees[0].starsPerLevel);
     }
     private void HandleComboEnd()
     {
@@ -155,14 +156,15 @@ public class GameManager : MonoBehaviour
         {
             if (nbPlay < countForStars[0])
             {
-                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2]) 
+                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2])
                 {
                     Debug.Log("3 stars");
-                    if(SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel == 3)
+                    if (SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel == 3)
                     {
                         starsToAdd = 3;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= starsToAdd;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2] = true;
+                        SaveBoolValues();
                         return starsToAdd;
                     }
                     else
@@ -170,15 +172,17 @@ public class GameManager : MonoBehaviour
                         starsToAdd = SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel = 0;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2] = true;
+                        SaveBoolValues();
                         return starsToAdd;
                     }
-                    
+
                 }
                 else
                 {
+                    SaveBoolValues();
                     return starsToAdd;
                 }
-                
+
 
             }
             else if (nbPlay < countForStars[1] && nbPlay > countForStars[0])
@@ -191,6 +195,7 @@ public class GameManager : MonoBehaviour
                         starsToAdd = 1;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= starsToAdd;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1] = true;
+                        SaveBoolValues();
                         return starsToAdd;
                     }
                     else
@@ -198,40 +203,93 @@ public class GameManager : MonoBehaviour
                         starsToAdd = 2;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= starsToAdd;
                         SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1] = true;
+                        SaveBoolValues();
                         return starsToAdd;
                     }
-                    
+
                 }
                 else
                 {
+                    SaveBoolValues();
                     return starsToAdd;
                 }
 
             }
             else
             {
-                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0] && !SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1]&& !SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2])
+                if (!SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0] && !SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[1] && !SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[2])
                 {
-                        starsToAdd = 1;
-                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= 1;
-                        SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0] = true;
+                    starsToAdd = 1;
+                    SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].starsPerLevel -= 1;
+                    SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0] = true;
                     Debug.Log(SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0]);
-
+                    SaveBoolValues();
                     return starsToAdd;
                 }
                 else
                 {
                     Debug.Log("1 stars");
                     Debug.Log(SettingSystem.instance.donnees[SettingSystem.instance.levelNumber].bools[0]);
-
+                    SaveBoolValues();
                     return starsToAdd;
                 }
             }
 
         }
         return starsToAdd;
-        
+
     }
+
+
+    //public int StarsIncrementation()
+    //{
+    //    int starsToAdd = 0;
+    //    var levelData = SettingSystem.instance.donnees[SettingSystem.instance.levelNumber];
+
+    //    if (levelData.starsPerLevel != 0)
+    //    {
+    //        if (nbPlay < countForStars[0] && !levelData.bools[2])
+    //        {
+    //            // Logique d'incrémentation des étoiles
+    //            starsToAdd = levelData.starsPerLevel >= 3 ? 3 : levelData.starsPerLevel;
+    //            levelData.starsPerLevel -= starsToAdd;
+    //            levelData.bools[2] = true;
+
+    //            // Sauvegarde après modification
+    //            SaveBoolValues();
+
+    //            return starsToAdd;
+    //        }
+    //        else if (nbPlay < countForStars[1] && nbPlay > countForStars[0] && !levelData.bools[1] && !levelData.bools[2])
+    //        {
+    //            starsToAdd = levelData.starsPerLevel >= 2 ? 2 : 1;
+    //            levelData.starsPerLevel -= starsToAdd;
+    //            levelData.bools[1] = true;
+
+    //            SaveBoolValues(); // Sauvegarde après modification
+    //            return starsToAdd;
+    //        }
+    //        else if (!levelData.bools[0] && !levelData.bools[1] && !levelData.bools[2])
+    //        {
+    //            starsToAdd = 1;
+    //            levelData.starsPerLevel -= 1;
+    //            levelData.bools[0] = true;
+
+    //            SaveBoolValues(); // Sauvegarde après modification
+    //            return starsToAdd;
+    //        }
+    //    }
+
+    //    return starsToAdd;
+    //}
+
+
+
+
+
+
+
+
 
     public void EndGame()
     {
@@ -365,24 +423,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    //private void LoadStarsPerLevel()
-    //{
-    //    // Chargement des étoiles à partir de PlayerPrefs
-    //    if (PlayerPrefs.HasKey("StarsPerLevel_" + SettingSystem.instance.levelNumber))
-    //    {
-    //        string starsString = PlayerPrefs.GetString("StarsPerLevel_" + SettingSystem.instance.levelNumber);
-    //        string[] starsArray = starsString.Split(',');
-    //        for (int i = 0; i < starsArray.Length; i++)
-    //        {
-    //            if (int.TryParse(starsArray[i], out int star))
-    //            {
-    //                SettingSystem.instance.donnees[i].starsPerLevel = star;
-    //            }
-    //        }
-    //        Debug.Log("Étoiles chargées pour le niveau " + SettingSystem.instance.levelNumber + ": " + starsString);
-    //    }
-    //}
-
 
     private void UpdateBonusTexts()
     {
@@ -392,6 +432,36 @@ public class GameManager : MonoBehaviour
             textAutoMergeBonus.text = SettingSystem.instance.nbAutoMergeBonus.ToString();
         }
     }
+
+    private void SaveBoolValues()
+    {
+        // Par exemple pour levelNumber 2 et bools[0], bools[1], bools[2]
+        int level = SettingSystem.instance.levelNumber;
+
+        for (int i = 0; i < SettingSystem.instance.donnees[level].bools.Length; i++)
+        {
+            // Utilise une clé unique pour chaque booléen : "Level_<levelNumber>_Bool_<index>"
+            string key = $"Level_{level}_Bool_{i}";
+            PlayerPrefs.SetInt(key, SettingSystem.instance.donnees[level].bools[i] ? 1 : 0);
+        }
+        PlayerPrefs.Save();
+    }
+
+    //private void LoadBoolValues()
+    //{
+    //    int level = SettingSystem.instance.levelNumber;
+
+    //    for (int i = 0; i < SettingSystem.instance.donnees[level].bools.Length; i++)
+    //    {
+    //        string key = $"Level_{level}_Bool_{i}";
+
+    //        // Vérifie si une valeur sauvegardée existe pour ce booléen
+    //        if (PlayerPrefs.HasKey(key))
+    //        {
+    //            SettingSystem.instance.donnees[level].bools[i] = PlayerPrefs.GetInt(key) == 1;
+    //        }
+    //    }
+    //}
 
 
 }
