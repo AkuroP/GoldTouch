@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 
@@ -91,6 +92,10 @@ public class SettingSystem : MonoBehaviour
 
     public int nbFreeTurneBonus;
     public int nbAutoMergeBonus;
+
+    [SerializeField] private Animator animatorCoffer;
+
+    [SerializeField] private GameObject[] closeCofferButton;
 
     private void Awake()
     {
@@ -412,6 +417,7 @@ public class SettingSystem : MonoBehaviour
             GenerateRandomBonuses(cofferType);
             SaveGold();
             UpdateGoldText();
+            PlayCofferAnimation(cofferType);
         }
         else
         {
@@ -428,6 +434,45 @@ public class SettingSystem : MonoBehaviour
                 return 2000;
             default:
                 return 250;
+        }
+    }
+    private void PlayCofferAnimation(CofferType cofferType)
+    {
+        switch (cofferType)
+        {
+            case CofferType.Standard:
+                animatorCoffer.SetBool("IsOpen1", true);
+                closeCofferButton[0].SetActive(true);
+                break;
+            case CofferType.Rare:
+                animatorCoffer.SetBool("IsOpen2", true);
+                closeCofferButton[1].SetActive(true);
+                break;
+            case CofferType.Legendary:
+                animatorCoffer.SetBool("IsOpen3", true);
+                closeCofferButton[2].SetActive(true);
+                break;
+        }
+    }
+
+    public void CloseCofferAnimation(int cofferTypeIndex)
+    {
+        CofferType cofferType = (CofferType)cofferTypeIndex;
+
+        switch (cofferType)
+        {
+            case CofferType.Standard:
+                animatorCoffer.SetBool("IsOpen1", false);
+                closeCofferButton[0].SetActive(false);
+                break;
+            case CofferType.Rare:
+                animatorCoffer.SetBool("IsOpen2", false);
+                closeCofferButton[1].SetActive(false);
+                break;
+            case CofferType.Legendary:
+                animatorCoffer.SetBool("IsOpen3", false);
+                closeCofferButton[2].SetActive(false);
+                break;
         }
     }
 
