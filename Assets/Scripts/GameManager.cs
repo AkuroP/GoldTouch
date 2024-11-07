@@ -136,31 +136,23 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
 
             int randomInt = UnityEngine.Random.Range(0, 10);
 
-            if (isEndless == false)
+            if (!isEndless)
             {
+                Debug.Log("Level finished");
                 if (randomInt >= 0 && randomInt <= 2)
                 {
                     ShowAd(); // Lance la pub si le nombre est compris entre 0 et 2
+                    Debug.Log("Level Ads");
                 }
 
                 else
                 {
                     EndGame();
                 }
-            }
-
-            else if (isEndless == true)
-            {
-                ShowAd(); // Lance la pub si endless
-            }
-
-
-
-            
-
-            
+            }            
             
         }
+
         Debug.Log(SettingSystem.instance.donnees[0].starsPerLevel);
     }
     private void HandleComboEnd()
@@ -379,7 +371,7 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     public void ActivateFreeTurns(int freeTurnCount)
     {
         freeTurns = freeTurnCount;
-        Debug.Log("feee");
+        Debug.Log("free");
 
     }
 
@@ -536,17 +528,19 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     {
         Debug.Log($"Error loading Ad Unit: {_adUnitId} - {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to load, such as attempting to try again.
+        EndGame();
     }
  
     public void OnUnityAdsShowFailure(string _adUnitId, UnityAdsShowError error, string message)
     {
         Debug.Log($"Error showing Ad Unit {_adUnitId}: {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to show, such as loading another ad.
+        EndGame();
     }
  
     public void OnUnityAdsShowStart(string _adUnitId) { }
     public void OnUnityAdsShowClick(string _adUnitId) { }
-    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) { EndGame();}
+    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) {EndGame();}
 
 
 
