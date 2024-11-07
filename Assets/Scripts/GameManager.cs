@@ -31,8 +31,12 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
 
     [SerializeField] private int[] countForStars = new int[2];
     public TextMeshProUGUI textScoreToBeat;
+
     public TextMeshProUGUI textActualScore;
+    public TextMeshProUGUI[] textActualNbPlay;
+
     public TextMeshProUGUI scoreFinal;
+    public TextMeshProUGUI[] scoreForStars;
 
 
     [SerializeField] private GameObject[] scoreStarsUI;
@@ -100,7 +104,11 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         UpdateBonusTexts();
 
         //LoadBoolValues();
-        LoadAd(); 
+        LoadAd();
+
+        scoreForStars[0].text = countForStars[0].ToString();
+        scoreForStars[1].text = countForStars[1].ToString();
+        scoreForStars[2].text = countForStars[1].ToString();
     }
 
 
@@ -111,6 +119,10 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     private void Update()
     {
         textActualScore.text = actualScore.ToString();
+        for(int i = 0; i < textActualNbPlay.Length; i++)
+        {
+            textActualNbPlay[i].text = nbPlay.ToString();
+        }
         scoreFinal.text = actualScore.ToString();
 
         UpdateBonusTexts();
@@ -275,56 +287,6 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     }
 
 
-    //public int StarsIncrementation()
-    //{
-    //    int starsToAdd = 0;
-    //    var levelData = SettingSystem.instance.donnees[SettingSystem.instance.levelNumber];
-
-    //    if (levelData.starsPerLevel != 0)
-    //    {
-    //        if (nbPlay < countForStars[0] && !levelData.bools[2])
-    //        {
-    //            // Logique d'incrémentation des étoiles
-    //            starsToAdd = levelData.starsPerLevel >= 3 ? 3 : levelData.starsPerLevel;
-    //            levelData.starsPerLevel -= starsToAdd;
-    //            levelData.bools[2] = true;
-
-    //            // Sauvegarde après modification
-    //            SaveBoolValues();
-
-    //            return starsToAdd;
-    //        }
-    //        else if (nbPlay < countForStars[1] && nbPlay > countForStars[0] && !levelData.bools[1] && !levelData.bools[2])
-    //        {
-    //            starsToAdd = levelData.starsPerLevel >= 2 ? 2 : 1;
-    //            levelData.starsPerLevel -= starsToAdd;
-    //            levelData.bools[1] = true;
-
-    //            SaveBoolValues(); // Sauvegarde après modification
-    //            return starsToAdd;
-    //        }
-    //        else if (!levelData.bools[0] && !levelData.bools[1] && !levelData.bools[2])
-    //        {
-    //            starsToAdd = 1;
-    //            levelData.starsPerLevel -= 1;
-    //            levelData.bools[0] = true;
-
-    //            SaveBoolValues(); // Sauvegarde après modification
-    //            return starsToAdd;
-    //        }
-    //    }
-
-    //    return starsToAdd;
-    //}
-
-
-
-
-
-
-
-
-
     public void EndGame()
     {
         if (!win)
@@ -480,24 +442,6 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         }
         PlayerPrefs.Save();
     }
-
-    //private void LoadBoolValues()
-    //{
-    //    int level = SettingSystem.instance.levelNumber;
-
-    //    for (int i = 0; i < SettingSystem.instance.donnees[level].bools.Length; i++)
-    //    {
-    //        string key = $"Level_{level}_Bool_{i}";
-
-    //        // Vérifie si une valeur sauvegardée existe pour ce booléen
-    //        if (PlayerPrefs.HasKey(key))
-    //        {
-    //            SettingSystem.instance.donnees[level].bools[i] = PlayerPrefs.GetInt(key) == 1;
-    //        }
-    //    }
-    //}
-
-
 
 
     //ADS

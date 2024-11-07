@@ -37,6 +37,7 @@ public class GemsManager : MonoBehaviour
 
     [SerializeField] private RectTransform bonusZone;
 
+    private GameObject settingsZone;
     private GameObject shopUI;
     // Start is called before the first frame update
     void Start()
@@ -135,12 +136,20 @@ public class GemsManager : MonoBehaviour
             shopUI = GameObject.Find("Shop"); // Remplacez par le nom de votre GameObject
         }
 
+        if (settingsZone == null)
+        {
+            settingsZone = GameObject.Find("SettingZone"); // Remplacez par le nom de votre GameObject
+        }
+
         if (ctx.started)
         {
 
-            if (RectTransformUtility.RectangleContainsScreenPoint(bonusZone, screenPoint)
-                || (shopUI != null && shopUI.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(shopUI.GetComponent<RectTransform>(), screenPoint)))
+            if (RectTransformUtility.RectangleContainsScreenPoint(bonusZone, screenPoint) || 
+                (shopUI != null && shopUI.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(shopUI.GetComponent<RectTransform>(), screenPoint)) ||
+                (settingsZone != null && settingsZone.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(settingsZone.GetComponent<RectTransform>(), screenPoint))
+                )
             {
+                
                 Debug.Log("Clic dans la zone de bonus, interaction annulée.");
                 ignore = true;
                 return;
