@@ -22,6 +22,7 @@ public class TriggerLoseEndless : MonoBehaviour, IUnityAdsLoadListener, IUnityAd
 
     private void Start()
     {
+        
         LoadAd(); 
 
     }

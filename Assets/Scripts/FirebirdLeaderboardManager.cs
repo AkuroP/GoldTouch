@@ -37,6 +37,8 @@ public class FirebirdLeaderboardManager : MonoBehaviour
     public void ShowLeaderboard()
     {
         StartCoroutine(FetchLeaderBoardData()); 
+        leaderboardPanel.SetActive(true);
+        userProfilePanel.SetActive(false);
         
     }
 
