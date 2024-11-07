@@ -106,6 +106,9 @@ public class SettingSystem : MonoBehaviour
     private int lastFreeLunchBonus; // Stock temporaire pour le bonus Free Lunch gagné
     private int lastMergeBonus;
 
+    [SerializeField] private string uiElementNameToDisable;
+    private GameObject cachedUIElement;
+
     private void Awake()
     {
         if (instance == null)
@@ -280,11 +283,14 @@ public class SettingSystem : MonoBehaviour
     {
         AudioManager.instance.PlayRandom(SoundState.BUTTON);
         animatorShop.SetBool("IsShop", true);
+
+        CacheAndDisableUIElement(uiElementNameToDisable);
     }
     public void ShopBack()
     {
         AudioManager.instance.PlayRandom(SoundState.BUTTON);
         animatorShop.SetBool("IsShop", false);
+        ReactivateCachedUIElement();
         Debug.Log("je evien du shop l'ami");
     }
 
@@ -596,7 +602,37 @@ public class SettingSystem : MonoBehaviour
         }
     }
 
+    private void CacheAndDisableUIElement(string elementName)
+    {
+        // Si nous avons déjà une référence au GameObject, inutile de la chercher à nouveau
+        if (cachedUIElement == null)
+        {
+            cachedUIElement = GameObject.Find(elementName);
+        }
 
+        if (cachedUIElement != null)
+        {
+            cachedUIElement.SetActive(false); // Désactive le GameObject UI
+            Debug.Log($"UI élément '{elementName}' désactivé et mis en cache.");
+        }
+        else
+        {
+            Debug.LogWarning($"UI élément '{elementName}' non trouvé dans la scène.");
+        }
+    }
+
+    private void ReactivateCachedUIElement()
+    {
+        if (cachedUIElement != null)
+        {
+            cachedUIElement.SetActive(true); // Réactive le GameObject UI
+            Debug.Log($"UI élément '{cachedUIElement.name}' réactivé depuis le cache.");
+        }
+        else
+        {
+            Debug.LogWarning("Aucun élément UI n'a été mis en cache pour réactivation.");
+        }
+    }
 
 
 }
