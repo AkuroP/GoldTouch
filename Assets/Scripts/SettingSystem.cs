@@ -97,6 +97,15 @@ public class SettingSystem : MonoBehaviour
 
     [SerializeField] private GameObject[] closeCofferButton;
 
+    [SerializeField] private TextMeshProUGUI freeLunchBonusText;
+    [SerializeField] private TextMeshProUGUI mergeBonusText;
+
+    [SerializeField] private Image freeLunchBonusImage;
+    [SerializeField] private Image mergeBonusImage;
+
+    private int lastFreeLunchBonus; // Stock temporaire pour le bonus Free Lunch gagné
+    private int lastMergeBonus;
+
     private void Awake()
     {
         if (instance == null)
@@ -438,6 +447,8 @@ public class SettingSystem : MonoBehaviour
     }
     private void PlayCofferAnimation(CofferType cofferType)
     {
+        UpdateBonusTexts();
+
         switch (cofferType)
         {
             case CofferType.Standard:
@@ -457,6 +468,11 @@ public class SettingSystem : MonoBehaviour
 
     public void CloseCofferAnimation(int cofferTypeIndex)
     {
+        freeLunchBonusText.gameObject.SetActive(false);
+        mergeBonusText.gameObject.SetActive(false);
+        freeLunchBonusImage.gameObject.SetActive(false);
+        mergeBonusImage.gameObject.SetActive(false);
+
         CofferType cofferType = (CofferType)cofferTypeIndex;
 
         switch (cofferType)
@@ -514,6 +530,9 @@ public class SettingSystem : MonoBehaviour
         int totalFreeLunchBonus = 0;
         int totalMergeBonus = 0;
 
+        lastFreeLunchBonus = 0;
+        lastMergeBonus = 0;
+
         // Générer chaque bonus
         for (int i = 0; i < bonusCount; i++)
         {
@@ -529,11 +548,13 @@ public class SettingSystem : MonoBehaviour
             {
                 nbFreeTurneBonus += amount;
                 totalFreeLunchBonus += amount;
+                lastFreeLunchBonus += amount;
             }
             else if (selectedBonus.bonusName == "MergeBonus")
             {
                 nbAutoMergeBonus += amount;
                 totalMergeBonus += amount;
+                lastMergeBonus += amount;
             }
         }
 
@@ -544,7 +565,36 @@ public class SettingSystem : MonoBehaviour
         SaveBonuses();
     }
 
+    private void UpdateBonusTexts()
+    {
+        // Met à jour les textes en fonction des bonus obtenus
+        if (lastFreeLunchBonus > 0)
+        {
+            freeLunchBonusText.text = $"X: {lastFreeLunchBonus}";
+            freeLunchBonusText.gameObject.SetActive(true);
+            freeLunchBonusImage.gameObject.SetActive(true);
 
+        }
+        else
+        {
+            freeLunchBonusText.gameObject.SetActive(false);
+            freeLunchBonusImage.gameObject.SetActive(false);
+
+        }
+
+        if (lastMergeBonus > 0)
+        {
+            mergeBonusText.text = $"X: {lastMergeBonus}";
+            mergeBonusText.gameObject.SetActive(true);
+            mergeBonusImage.gameObject.SetActive(true);
+        }
+        else
+        {
+            mergeBonusText.gameObject.SetActive(false);
+            mergeBonusImage.gameObject.SetActive(false);
+
+        }
+    }
 
 
 
