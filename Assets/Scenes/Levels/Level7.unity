@@ -5047,6 +5047,11 @@ PrefabInstance:
       objectReference: {fileID: 721705423}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
+      propertyPath: scoreToBeat
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
+        type: 3}
       propertyPath: _gemsManager
       value: 
       objectReference: {fileID: 760444478}
@@ -5095,6 +5100,16 @@ PrefabInstance:
       propertyPath: scoreStarsUI.Array.data[2]
       value: 
       objectReference: {fileID: 2123168984}
+    - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
+        type: 3}
+      propertyPath: countForStars.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
+        type: 3}
+      propertyPath: countForStars.Array.data[1]
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
       propertyPath: scoreForStars.Array.data[0]
