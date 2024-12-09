@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     [SerializeField] string _androidAdUnitId = "Interstitial_Android";
     [SerializeField] string _iOsAdUnitId = "Interstitial_iOS";
     string _adUnitId;  
+
+    bool isAdsPlaying = false;
     
     
     [SerializeField]
@@ -137,7 +139,7 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         }
 
         
-        if (scoreToBeat > 0 && actualScore >= scoreToBeat)
+        if (scoreToBeat > 0 && actualScore >= scoreToBeat && !isAdsPlaying)
         {
 
             // Verifier et modifier le highscore
@@ -146,20 +148,29 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
                 PlayerPrefs.SetInt("Highscore", actualScore);
             }
 
-            int randomInt = UnityEngine.Random.Range(0, 10);
+            int randomInt = UnityEngine.Random.Range(0, 9);
+            Debug.Log("si > 5 pub : " + randomInt);
 
             if (!isEndless)
             {
                 Debug.Log("Level finished");
-                if (randomInt >= 0 && randomInt <= 2)
+                if (randomInt > 5 )
                 {
                     ShowAd(); // Lance la pub si le nombre est compris entre 0 et 2
-                    Debug.Log("Level Ads");
+                    isAdsPlaying = true;
+                     Debug.Log("Pub =" + isAdsPlaying);
+
                 }
 
                 else
                 {
+                     
+                    isAdsPlaying = true;
+
+                    Debug.Log("Pub =" + isAdsPlaying);
+
                     EndGame();
+
                 }
             }            
             
@@ -306,6 +317,8 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
             }
             SettingSystem.instance.nbStars += StarsIncrementation();
             SaveStarsPerLevel();
+
+            isAdsPlaying = false;
         }
     }
 
