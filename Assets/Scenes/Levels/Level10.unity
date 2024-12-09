@@ -5048,7 +5048,7 @@ PrefabInstance:
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
       propertyPath: scoreToBeat
-      value: 300
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
@@ -5103,12 +5103,12 @@ PrefabInstance:
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
       propertyPath: countForStars.Array.data[0]
-      value: 16
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
       propertyPath: countForStars.Array.data[1]
-      value: 32
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
