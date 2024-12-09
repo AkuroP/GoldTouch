@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.SymbolStore;
+using Firebase.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,12 +17,12 @@ public class BonusManager : MonoBehaviour
 
     private void Start()
     {
-        // Assigner les méthodes aux boutons UI
+        // Assigner les mï¿½thodes aux boutons UI
         freeTurnButton.onClick.AddListener(ActivateFreeTurnsBonus);
         mergeGemsButton.onClick.AddListener(ActivateMergeGemsBonus);
     }
 
-    // Méthode pour le premier bouton : Activer les tours gratuits
+    // Mï¿½thode pour le premier bouton : Activer les tours gratuits
     public void ActivateFreeTurnsBonus()
     {
         if (SettingSystem.instance.nbFreeTurneBonus <= 0)
@@ -32,7 +33,7 @@ public class BonusManager : MonoBehaviour
 
         //if (nbFreeTurn > 0)
         //{
-        //    Debug.Log("Le bonus de tours gratuits est déjà en cours !");
+        //    Debug.Log("Le bonus de tours gratuits est dï¿½jï¿½ en cours !");
         //    return;
         //}
 
@@ -42,10 +43,11 @@ public class BonusManager : MonoBehaviour
             SettingSystem.instance.nbFreeTurneBonus--;
             GameManager.instance.ActivateFreeTurns(nbFreeTurn);
             SettingSystem.instance.SaveBonuses();
+            Firebase.Analytics.FirebaseAnalytics.LogEvent(Firebase.Analytics.FirebaseAnalytics.EventSelectItem);
         }
         else 
         {
-            Debug.Log("Le bonus de tours gratuits est déjà en cours !");
+            Debug.Log("Le bonus de tours gratuits est dï¿½jï¿½ en cours !");
             return;
         }
 
@@ -53,10 +55,10 @@ public class BonusManager : MonoBehaviour
         
     }
 
-    // Méthode pour le deuxième bouton : Fusionner les gemmes identiques
+    // Mï¿½thode pour le deuxiï¿½me bouton : Fusionner les gemmes identiques
     public void ActivateMergeGemsBonus()
     {
-        // Vérifie si le joueur a des bonus 2 disponibles
+        // Vï¿½rifie si le joueur a des bonus 2 disponibles
         if (SettingSystem.instance.nbAutoMergeBonus <= 0)
         {
             Debug.Log("Pas de bonus 2 disponible !");
@@ -67,7 +69,9 @@ public class BonusManager : MonoBehaviour
         SettingSystem.instance.nbAutoMergeBonus--;
         GameManager.instance.MergeIdenticalGems();
 
-        // Sauvegarde la mise à jour avec la méthode de SettingSystem
+        Firebase.Analytics.FirebaseAnalytics.LogEvent(Firebase.Analytics.FirebaseAnalytics.EventSelectItem);
+
+        // Sauvegarde la mise ï¿½ jour avec la mï¿½thode de SettingSystem
         SettingSystem.instance.SaveBonuses();
     }
 

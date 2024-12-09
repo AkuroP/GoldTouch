@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     [SerializeField] string _androidAdUnitId = "Interstitial_Android";
     [SerializeField] string _iOsAdUnitId = "Interstitial_iOS";
     string _adUnitId;  
+
+    bool isAdsPlaying = false;
     
     
     [SerializeField]
@@ -137,7 +139,7 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         }
 
         
-        if (scoreToBeat > 0 && actualScore >= scoreToBeat)
+        if (scoreToBeat > 0 && actualScore >= scoreToBeat && !isAdsPlaying)
         {
 
             // Verifier et modifier le highscore
@@ -146,33 +148,34 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
                 PlayerPrefs.SetInt("Highscore", actualScore);
             }
 
-            int randomInt = UnityEngine.Random.Range(0, 10);
+            int randomInt = UnityEngine.Random.Range(0, 9);
+            Debug.Log("si > 5 pub : " + randomInt);
 
-            if (isEndless == false)
+            if (!isEndless)
             {
-                if (randomInt >= 0 && randomInt <= 2)
+                Debug.Log("Level finished");
+                if (randomInt > 5 )
                 {
                     ShowAd(); // Lance la pub si le nombre est compris entre 0 et 2
+                    isAdsPlaying = true;
+                     Debug.Log("Pub =" + isAdsPlaying);
+
                 }
 
                 else
                 {
+                     
+                    isAdsPlaying = true;
+
+                    Debug.Log("Pub =" + isAdsPlaying);
+
                     EndGame();
+
                 }
-            }
-
-            else if (isEndless == true)
-            {
-                ShowAd(); // Lance la pub si endless
-            }
-
-
-
-            
-
-            
+            }            
             
         }
+
         Debug.Log(SettingSystem.instance.donnees[0].starsPerLevel);
     }
     private void HandleComboEnd()
@@ -314,6 +317,8 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
             }
             SettingSystem.instance.nbStars += StarsIncrementation();
             SaveStarsPerLevel();
+
+            isAdsPlaying = false;
         }
     }
 
@@ -341,7 +346,7 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     public void ActivateFreeTurns(int freeTurnCount)
     {
         freeTurns = freeTurnCount;
-        Debug.Log("feee");
+        Debug.Log("free");
 
     }
 
@@ -480,17 +485,19 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     {
         Debug.Log($"Error loading Ad Unit: {_adUnitId} - {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to load, such as attempting to try again.
+        EndGame();
     }
  
     public void OnUnityAdsShowFailure(string _adUnitId, UnityAdsShowError error, string message)
     {
         Debug.Log($"Error showing Ad Unit {_adUnitId}: {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to show, such as loading another ad.
+        EndGame();
     }
  
     public void OnUnityAdsShowStart(string _adUnitId) { }
     public void OnUnityAdsShowClick(string _adUnitId) { }
-    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) { EndGame();}
+    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) {EndGame();}
 
 
 

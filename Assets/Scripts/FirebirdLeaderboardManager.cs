@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Firebase.Database;
+using Firebase.Analytics;
 using TMPro;
 
 public class FirebirdLeaderboardManager : MonoBehaviour
@@ -37,11 +38,15 @@ public class FirebirdLeaderboardManager : MonoBehaviour
     public void ShowLeaderboard()
     {
         StartCoroutine(FetchLeaderBoardData()); 
+        leaderboardPanel.SetActive(true);
+        userProfilePanel.SetActive(false);
         
     }
 
     public void SignInWithUsername() 
     { 
+
+        
         StartCoroutine(CheckUserExistInDatabase());
     
 
@@ -165,6 +170,8 @@ public class FirebirdLeaderboardManager : MonoBehaviour
                 PushUserData(); 
                 PlayerPrefs.SetInt("PlayerID",totalUsers+1);
                 PlayerPrefs.SetString("Username",usernameInput.text);
+
+                Firebase.Analytics.FirebaseAnalytics.LogEvent(Firebase.Analytics.FirebaseAnalytics.EventSignUp);
 
                 StartCoroutine(DelayFetchProfile());
 
@@ -325,6 +332,11 @@ public class LeaderboardData
         this.highscore = highscore;
 
     }
+
+
+
+
+
 
 
 
