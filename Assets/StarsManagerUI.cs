@@ -23,8 +23,7 @@ public class StarsManagerUI : MonoBehaviour
 
     [SerializeField] private GameObject[] starsLocked;
 
-    [SerializeField] private Animator animator2;
-    [SerializeField] private Animator animator3;
+    [SerializeField] private List<GameObject> levelButtons;
 
     private void Start()
     {
@@ -39,17 +38,47 @@ public class StarsManagerUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (SettingSystem.instance.nbStars >= 2)
+        foreach (var button in levelButtons)
         {
-            animator2.SetBool("CanDance2", true);
-            starsLocked[0].SetActive(false);
-        }
-        if (SettingSystem.instance.nbStars >= 4)
-        {
-            animator3.SetBool("canDance3", true);
-            starsLocked[1].SetActive(false);
+            // Vérifier si le bouton a un composant SceneLoader
+            SceneLoader sceneLoader = button.GetComponent<SceneLoader>();
+            if (sceneLoader == null) continue;
+
+            // Vérifier si le joueur a suffisamment d'étoiles pour activer ce bouton
+            if (SettingSystem.instance.nbStars >= sceneLoader.nbStarsNeeded)
+            {
+                // Activer le bouton et jouer son animation
+                //button.SetActive(true);
+
+                // Lancer l'animation du bouton via son Animator
+                Animator buttonAnimator = button.GetComponent<Animator>();
+                if (buttonAnimator != null)
+                {
+                    buttonAnimator.SetTrigger("Activate");
+                }
+
+                // Désactiver l'objet verrouillé correspondant si nécessaire
+                int index = levelButtons.IndexOf(button);
+                if (index < starsLocked.Length)
+                {
+                    starsLocked[index].SetActive(false);
+                }
+            }
+            else
+            {
+                // Désactiver le bouton si le joueur n'a pas assez d'étoiles
+                //button.SetActive(false);
+
+                // Activer l'objet verrouillé correspondant si nécessaire
+                int index = levelButtons.IndexOf(button);
+                if (index < starsLocked.Length)
+                {
+                    starsLocked[index].SetActive(true);
+                }
+            }
         }
 
+        // Gérer les étoiles des niveaux
         for (int levelIndex = 0; levelIndex < starsSpritesData.Length; levelIndex++)
         {
             for (int starIndex = 0; starIndex < starsSpritesData[levelIndex].starsSprites.Length; starIndex++)
@@ -61,42 +90,33 @@ public class StarsManagerUI : MonoBehaviour
 
     private void SaveData()
     {
-        // Sauvegarder les données de chaque niveau
         for (int i = 0; i < starsSpritesData.Length; i++)
         {
-            // Sauvegarde de l'état du niveau (débloqué ou non)
             PlayerPrefs.SetInt($"Level_{i}_Unlocked", starsSpritesData[i].isUnlocked ? 1 : 0);
-            // Sauvegarde de l'état de l'animation (déclenchée ou non)
             PlayerPrefs.SetInt($"Level_{i}_AnimationTriggered", starsSpritesData[i].animationTriggered ? 1 : 0);
 
-            // Sauvegarde des étoiles de chaque niveau (actives ou non)
             for (int j = 0; j < starsSpritesData[i].starsSprites.Length; j++)
             {
-                // Enregistrer chaque étoile (active ou non) pour chaque niveau
                 PlayerPrefs.SetInt($"Level_{i}_Star_{j}_Active", starsSpritesData[i].starsSprites[j].activeSelf ? 1 : 0);
             }
         }
-        PlayerPrefs.Save(); // Sauvegarder les modifications
+        PlayerPrefs.Save();
     }
 
     private void LoadData()
     {
-        // Charger les données pour chaque niveau
         for (int i = 0; i < starsSpritesData.Length; i++)
         {
-            // Charger l'état du niveau (débloqué ou non)
             starsSpritesData[i].isUnlocked = PlayerPrefs.GetInt($"Level_{i}_Unlocked", 0) == 1;
-            // Charger l'état de l'animation (déclenchée ou non)
             starsSpritesData[i].animationTriggered = PlayerPrefs.GetInt($"Level_{i}_AnimationTriggered", 0) == 1;
 
-            // Charger l'état des étoiles pour chaque niveau
             for (int j = 0; j < starsSpritesData[i].starsSprites.Length; j++)
             {
                 bool isActive = PlayerPrefs.GetInt($"Level_{i}_Star_{j}_Active", 0) == 1;
-                starsSpritesData[i].starsSprites[j].SetActive(isActive); // Restaurer l'état actif de chaque étoile
+                starsSpritesData[i].starsSprites[j].SetActive(isActive);
             }
         }
     }
 
-    
+
 }

@@ -4519,11 +4519,6 @@ PrefabInstance:
       objectReference: {fileID: 679211795}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
-      propertyPath: scoreForStars.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
-        type: 3}
       propertyPath: scoreStarsUI.Array.data[0]
       value: 
       objectReference: {fileID: 1632827695}
@@ -4565,7 +4560,7 @@ PrefabInstance:
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
       propertyPath: textActualNbPlay.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
@@ -4581,12 +4576,12 @@ PrefabInstance:
         type: 3}
       propertyPath: textActualNbPlay.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 906541709}
     - target: {fileID: 759791651762620752, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
       propertyPath: textActualNbPlay.Array.data[3]
       value: 
-      objectReference: {fileID: 906541709}
+      objectReference: {fileID: 0}
     - target: {fileID: 2187342811852784589, guid: 8689b8b188e1d894c83553951fd038af,
         type: 3}
       propertyPath: m_LocalPosition.x
