@@ -2912,6 +2912,8 @@ GameObject:
   - component: {fileID: 6702296116004000458}
   - component: {fileID: 6732805971129624653}
   - component: {fileID: 2107087573764063699}
+  - component: {fileID: 597486344326370154}
+  - component: {fileID: 4987048632861325417}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: ObjectsToDisable
@@ -3047,6 +3049,33 @@ MonoBehaviour:
   levelToLoad: LevelSelection
   nbStarsNeeded: 0
   levelNumberLoaded: 0
+--- !u!114 &597486344326370154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4246875039428392529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6478bf5772e4af4bbd5e29a9d04ded2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _androidGameId: 5725650
+  _iOSGameId: 5725651
+  _testMode: 0
+--- !u!114 &4987048632861325417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4246875039428392529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85ed575badca2f94c95c61f5fb626ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4336075440010412216
 GameObject:
   m_ObjectHideFlags: 0
