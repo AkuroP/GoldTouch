@@ -3486,9 +3486,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f97ca8eea4f5914d91774c045dcc3d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smallResourceGold: 100
-  mediumResourceGold: 300
-  largeResourceGold: 1000
+  smallResourceGold: 250
+  mediumResourceGold: 1000
+  largeResourceGold: 2750
 --- !u!1 &5329577042127753785
 GameObject:
   m_ObjectHideFlags: 0
@@ -4098,8 +4098,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
