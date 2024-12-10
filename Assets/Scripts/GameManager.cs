@@ -105,8 +105,15 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         LoadStarsPerLevel();
         UpdateBonusTexts();
 
-        //LoadBoolValues();
-        LoadAd();
+        // Vérifiez si les publicités sont désactivées
+        if (AreAdsDisabled())
+        {
+            Debug.Log("Ads have been disabled.");
+        }
+        else
+        {
+            LoadAd(); // Charger les publicités uniquement si elles ne sont pas désactivées
+        }
 
         scoreForStars[0].text = countForStars[0].ToString();
         scoreForStars[1].text = countForStars[1].ToString();
@@ -470,6 +477,13 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         // Show the loaded content in the Ad Unit:
     public void ShowAd()
     {
+        if (AreAdsDisabled())
+        {
+            Debug.Log("Ads are disabled. Skipping ad display.");
+            EndGame(); // Continue le flux de jeu sans montrer la publicité
+            return;
+        }
+
         // Note that if the ad content wasn't previously loaded, this method will fail
         Debug.Log("Showing Ad: " + _adUnitId);
         Advertisement.Show(_adUnitId, this);
@@ -499,6 +513,10 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     public void OnUnityAdsShowClick(string _adUnitId) { }
     public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) {EndGame();}
 
-
+    private bool AreAdsDisabled()
+    {
+        return PlayerPrefs.GetInt("AdsRemoved", 0) == 1;
+    }
+    
 
 }
