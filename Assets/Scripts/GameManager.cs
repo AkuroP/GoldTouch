@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Advertisements;
+using Unity.Services.RemoteConfig;
+
+
+
 
 
 public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
@@ -161,11 +165,12 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
             if (!isEndless)
             {
                 Debug.Log("Level finished");
-                if (randomInt > 5 )
+                if (randomInt > RemoteConfigService.Instance.appConfig.GetInt("abtest_percentage_interstitialads") )
                 {
                     ShowAd(); // Lance la pub si le nombre est compris entre 0 et 2
                     isAdsPlaying = true;
                      Debug.Log("Pub =" + isAdsPlaying);
+                     Debug.Log("abtest_percentage_interstitialads = " + RemoteConfigService.Instance.appConfig.GetInt("abtest_percentage_interstitialads"));
 
                 }
 

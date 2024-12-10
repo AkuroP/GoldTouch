@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.RemoteConfig;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -54,7 +55,9 @@ public class SettingSystem : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI freeCofferTimerText; // Texte pour afficher le temps restant
     private const string FreeCofferLastOpenKey = "FreeCofferLastOpenTime";
-    private System.TimeSpan freeCofferCooldown = System.TimeSpan.FromHours(24);
+
+    private static long hours = 24;
+    private System.TimeSpan freeCofferCooldown = System.TimeSpan.FromHours(hours);
 
 
     [SerializeField] private AudioMixer audioMixer;
@@ -119,6 +122,9 @@ public class SettingSystem : MonoBehaviour
         {
             instance = this;
         }
+
+        hours = RemoteConfigService.Instance.appConfig.GetLong("abtest_timerfreechest");
+        Debug.Log("abtest_timerfreechest : " + RemoteConfigService.Instance.appConfig.GetLong("abtest_timerfreechest"));
 
     }
 
