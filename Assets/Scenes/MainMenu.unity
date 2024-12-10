@@ -932,6 +932,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 9038584974191670478, guid: a394cfd0ca4bc6f4d8722d7533f68de2,
+        type: 3}
+      propertyPath: _iOSGameId
+      value: 5725651
+      objectReference: {fileID: 0}
+    - target: {fileID: 9038584974191670478, guid: a394cfd0ca4bc6f4d8722d7533f68de2,
+        type: 3}
+      propertyPath: _androidGameId
+      value: 5725650
+      objectReference: {fileID: 0}
     - target: {fileID: 9132101334234233435, guid: a394cfd0ca4bc6f4d8722d7533f68de2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
