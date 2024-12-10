@@ -1,13 +1,12 @@
-using JetBrains.Annotations;
 using NaughtyAttributes;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 
@@ -51,6 +50,11 @@ public class SettingSystem : MonoBehaviour
 
     [SerializeField] private Animator animatorsetting;
     [SerializeField] private Animator animatorShop;
+
+
+    [SerializeField] private TextMeshProUGUI freeCofferTimerText; // Texte pour afficher le temps restant
+    private const string FreeCofferLastOpenKey = "FreeCofferLastOpenTime";
+    private System.TimeSpan freeCofferCooldown = System.TimeSpan.FromHours(24);
 
 
     [SerializeField] private AudioMixer audioMixer;
@@ -139,6 +143,8 @@ public class SettingSystem : MonoBehaviour
         UpdateStarsText();
         UpdateGoldText();
         InitializeBonuses();
+        UpdateFreeCofferUI();
+
     }
 
     private void OnApplicationQuit()
@@ -234,6 +240,7 @@ public class SettingSystem : MonoBehaviour
 
         nbStarsText.text = nbStars.ToString();
         UpdateGoldText();
+        UpdateFreeCofferUI();
     }
 
 
@@ -631,6 +638,71 @@ public class SettingSystem : MonoBehaviour
         else
         {
             Debug.LogWarning("Aucun élément UI n'a été mis en cache pour réactivation.");
+        }
+    }
+
+
+    private DateTime GetLastFreeCofferOpenTime()
+    {
+        if (PlayerPrefs.HasKey(FreeCofferLastOpenKey))
+        {
+            string savedTime = PlayerPrefs.GetString(FreeCofferLastOpenKey);
+            return DateTime.Parse(savedTime);
+        }
+        return DateTime.MinValue; // Pas encore ouvert
+    }
+
+    private void SetLastFreeCofferOpenTime(DateTime time)
+    {
+        PlayerPrefs.SetString(FreeCofferLastOpenKey, time.ToString());
+        PlayerPrefs.Save();
+    }
+
+    private bool IsFreeCofferAvailable()
+    {
+        DateTime lastOpenTime = GetLastFreeCofferOpenTime();
+        return DateTime.Now - lastOpenTime >= freeCofferCooldown;
+    }
+
+    private TimeSpan GetTimeUntilFreeCoffer()
+    {
+        DateTime lastOpenTime = GetLastFreeCofferOpenTime();
+        return freeCofferCooldown - (DateTime.Now - lastOpenTime);
+    }
+
+    private void UpdateFreeCofferUI()
+    {
+        if (IsFreeCofferAvailable())
+        {
+            freeCofferTimerText.text = "Free chest Ready !";
+        }
+        else
+        {
+            TimeSpan timeLeft = GetTimeUntilFreeCoffer();
+            if (timeLeft.TotalSeconds > 0)
+            {
+                freeCofferTimerText.text = string.Format("Next free chest in : {0:D2}:{1:D2}:{2:D2}",
+                    timeLeft.Hours, timeLeft.Minutes, timeLeft.Seconds);
+            }
+        }
+    }
+
+    public void OpenFreeCoffer()
+    {
+        if (IsFreeCofferAvailable())
+        {
+            Debug.Log("Coffre gratuit ouvert !");
+            SetLastFreeCofferOpenTime(DateTime.Now);
+
+            // Générer les bonus du coffre gratuit (comme le coffre standard)
+            GenerateRandomBonuses(CofferType.Standard);
+
+            // Jouer l'animation d'ouverture
+            PlayCofferAnimation(CofferType.Standard);
+        }
+        else
+        {
+            Debug.Log("Le coffre gratuit n'est pas encore prêt !");
         }
     }
 

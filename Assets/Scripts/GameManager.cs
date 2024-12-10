@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
 
         scoreForStars[0].text = countForStars[0].ToString();
         scoreForStars[1].text = countForStars[1].ToString();
-        scoreForStars[2].text = countForStars[1].ToString();
+        //scoreForStars[2].text = countForStars[1].ToString();
     }
 
 

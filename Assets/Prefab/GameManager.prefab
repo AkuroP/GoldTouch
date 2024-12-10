@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b330d5ed74789489e02c52f3c6e162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _androidAdUnitId: Interstitial_Android
+  _iOsAdUnitId: Interstitial_iOS
   _allGems:
   - {fileID: 9074674456214277987, guid: ae6959cdf6352f3439cac251c7b6868e, type: 3}
   - {fileID: 2810489523423335132, guid: 562fb5a396d46b0458e0814bcd23ca01, type: 3}
@@ -63,7 +65,14 @@ MonoBehaviour:
   countForStars: 060000000c000000
   textScoreToBeat: {fileID: 0}
   textActualScore: {fileID: 0}
+  textActualNbPlay:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   scoreFinal: {fileID: 0}
+  scoreForStars:
+  - {fileID: 0}
+  - {fileID: 0}
   scoreStarsUI:
   - {fileID: 0}
   - {fileID: 0}
@@ -78,4 +87,7 @@ MonoBehaviour:
   - {fileID: 407090117450160414, guid: 1c10d147aad13a64ca4c6d3bdd6cbeb9, type: 3}
   _canPlay: 1
   _gemsManager: {fileID: 0}
-  goldHardCurrency: 500
+  freeTurns: 0
+  textFreeTurnBonus: {fileID: 0}
+  textAutoMergeBonus: {fileID: 0}
+  isEndless: 0

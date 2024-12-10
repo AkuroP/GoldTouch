@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
     [Scene]
     public string levelToLoad;
 
-    [SerializeField] private int nbStarsNeeded;
+    public int nbStarsNeeded;
 
     [SerializeField] private int levelNumberLoaded;
 
