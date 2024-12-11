@@ -76,19 +76,25 @@ public class IAPManager : MonoBehaviour, IStoreListener
         {
             Product product = storeController.products.WithID(productId);
 
-            if (product != null && product.availableToPurchase)
+            if (product == null)
             {
-                Debug.Log($"Attempting to buy product: {product.definition.id}");
+                Debug.LogError($"Product not found: {productId}");
+                return;
+            }
+
+            if (product.availableToPurchase)
+            {
+                Debug.Log($"Attempting to purchase: {product.definition.id}");
                 storeController.InitiatePurchase(product);
             }
             else
             {
-                Debug.Log("Product is not available for purchase.");
+                Debug.LogWarning($"Product not available for purchase: {productId}");
             }
         }
         else
         {
-            Debug.Log("IAP not initialized.");
+            Debug.LogError("IAP system not initialized. Cannot make a purchase.");
         }
     }
 
