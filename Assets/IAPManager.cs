@@ -5,7 +5,7 @@ using Unity.Services.Core;
 
 public class IAPManager : MonoBehaviour, IStoreListener
 {
-    private static IStoreController storeController;
+    public static IStoreController storeController;
     private static IExtensionProvider storeExtensionProvider;
 
     // Identifiants des produits (� configurer dans Unity IAP)
