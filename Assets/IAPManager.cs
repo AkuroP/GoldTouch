@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.Purchasing;
 using TMPro;
+using Unity.Services.Core;
 
 public class IAPManager : MonoBehaviour, IStoreListener
 {
     private static IStoreController storeController;
     private static IExtensionProvider storeExtensionProvider;
 
-    // Identifiants des produits (à configurer dans Unity IAP)
+    // Identifiants des produits (ï¿½ configurer dans Unity IAP)
     public static string PRODUCT_RESOURCE_SMALL = "resource_small";
     public static string PRODUCT_RESOURCE_MEDIUM = "resource_medium";
     public static string PRODUCT_RESOURCE_LARGE = "resource_large";
@@ -27,10 +28,12 @@ public class IAPManager : MonoBehaviour, IStoreListener
         }
     }
 
-    public void InitializePurchasing()
+    public async void InitializePurchasing()
     {
         if (IsInitialized())
             return;
+
+        await UnityServices.InitializeAsync();
 
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
@@ -48,7 +51,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         return storeController != null && storeExtensionProvider != null;
     }
 
-    // Méthodes pour les achats de ressources
+    // Mï¿½thodes pour les achats de ressources
     public void BuySmallResource()
     {
         BuyProductID(PRODUCT_RESOURCE_SMALL);
@@ -64,7 +67,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         BuyProductID(PRODUCT_RESOURCE_LARGE);
     }
 
-    // Méthode pour supprimer les publicités
+    // Mï¿½thode pour supprimer les publicitï¿½s
     public void BuyRemoveAds()
     {
         BuyProductID(PRODUCT_REMOVE_ADS);
@@ -125,22 +128,22 @@ public class IAPManager : MonoBehaviour, IStoreListener
         if (args.purchasedProduct.definition.id == PRODUCT_RESOURCE_SMALL)
         {
             Debug.Log("Small resource pack purchased!");
-            SettingSystem.instance.AddGold(smallResourceGold); // Récompense pour le petit pack de ressources
+            SettingSystem.instance.AddGold(smallResourceGold); // Rï¿½compense pour le petit pack de ressources
         }
         else if (args.purchasedProduct.definition.id == PRODUCT_RESOURCE_MEDIUM)
         {
             Debug.Log("Medium resource pack purchased!");
-            SettingSystem.instance.AddGold(mediumResourceGold); // Récompense pour le pack moyen de ressources
+            SettingSystem.instance.AddGold(mediumResourceGold); // Rï¿½compense pour le pack moyen de ressources
         }
         else if (args.purchasedProduct.definition.id == PRODUCT_RESOURCE_LARGE)
         {
             Debug.Log("Large resource pack purchased!");
-            SettingSystem.instance.AddGold(largeResourceGold); // Récompense pour le grand pack de ressources
+            SettingSystem.instance.AddGold(largeResourceGold); // Rï¿½compense pour le grand pack de ressources
         }
         else if (args.purchasedProduct.definition.id == PRODUCT_REMOVE_ADS)
         {
             Debug.Log("Ads removed!");
-            PlayerPrefs.SetInt("AdsRemoved", 1); // Enregistre la suppression des publicités
+            PlayerPrefs.SetInt("AdsRemoved", 1); // Enregistre la suppression des publicitï¿½s
         }
         else
         {
