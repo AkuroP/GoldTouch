@@ -5,7 +5,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
 
-public class ExampleSample : MonoBehaviour
+public class RemoteConfigInitializer : MonoBehaviour
 {
     public struct userAttributes {}
     public struct appAttributes {}
