@@ -189,6 +189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1299382ffa5cc4dac07d03b3f33a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _androidAdUnitId: Interstitial_Android
+  _iOsAdUnitId: Interstitial_iOS
   outOfTriggerTimer: 10
 --- !u!1001 &133452254
 PrefabInstance:
@@ -1038,7 +1040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentGem: {fileID: 0}
   _spawnPoint: {fileID: 761118845}
-  _cooldown: 1
+  _cooldown: 0.5
   _wallLeft: {fileID: 722191029}
   _wallRight: {fileID: 1364191092}
   _gemsSprites:

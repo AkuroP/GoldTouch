@@ -1547,7 +1547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentGem: {fileID: 0}
   _spawnPoint: {fileID: 761118845}
-  _cooldown: 1
+  _cooldown: 0.5
   _wallLeft: {fileID: 722191029}
   _wallRight: {fileID: 1364191092}
   _gemsSprites:
