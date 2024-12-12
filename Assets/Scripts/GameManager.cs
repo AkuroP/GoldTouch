@@ -118,10 +118,13 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         {
             LoadAd(); // Charger les publicités uniquement si elles ne sont pas désactivées
         }
+        if (!isEndless)
+        {
+            scoreForStars[0].text = countForStars[0].ToString();
+            scoreForStars[1].text = countForStars[1].ToString();
+            //scoreForStars[2].text = countForStars[1].ToString();
+        }
 
-        scoreForStars[0].text = countForStars[0].ToString();
-        scoreForStars[1].text = countForStars[1].ToString();
-        //scoreForStars[2].text = countForStars[1].ToString();
     }
 
 
