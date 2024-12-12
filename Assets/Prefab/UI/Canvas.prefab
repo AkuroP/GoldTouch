@@ -2519,7 +2519,6 @@ GameObject:
   - component: {fileID: 1690184238962283629}
   - component: {fileID: 5476803534798785936}
   - component: {fileID: 2225848969021611669}
-  - component: {fileID: 6579159113070552017}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2677,21 +2676,6 @@ MonoBehaviour:
   freeLunchBonusImage: {fileID: 4178920178635842220}
   mergeBonusImage: {fileID: 6117063393530502364}
   uiElementNameToDisable: Score
---- !u!114 &6579159113070552017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4013522702155555537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6478bf5772e4af4bbd5e29a9d04ded2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _androidGameId: 5725650
-  _iOSGameId: 5725651
-  _testMode: 1
 --- !u!1 &4111082423135641759
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,7 +2898,6 @@ GameObject:
   - component: {fileID: 2107087573764063699}
   - component: {fileID: 597486344326370154}
   - component: {fileID: 4987048632861325417}
-  - component: {fileID: 60832382496178611}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: ObjectsToDisable
@@ -3077,22 +3060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ed575badca2f94c95c61f5fb626ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &60832382496178611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4246875039428392529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4b7fc61f71d98c4bbe7690b11221778, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  assignmentId: 
-  enemyVolume: 0
-  enemyHealth: 0
-  enemyDamage: 0
 --- !u!1 &4336075440010412216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5363,8 +5330,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5169444882239371900}
-  - component: {fileID: 9038584974191670478}
-  - component: {fileID: 6601538621161122594}
   m_Layer: 5
   m_Name: PLAY
   m_TagString: Untagged
@@ -5392,33 +5357,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -280.386}
   m_SizeDelta: {x: 0, y: 560.772}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9038584974191670478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7575631003720143414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6478bf5772e4af4bbd5e29a9d04ded2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _androidGameId: 
-  _iOSGameId: 
-  _testMode: 1
---- !u!114 &6601538621161122594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7575631003720143414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85ed575badca2f94c95c61f5fb626ecb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8038686794397304036
 GameObject:
   m_ObjectHideFlags: 0
