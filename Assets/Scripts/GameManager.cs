@@ -332,6 +332,7 @@ public class GameManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
             }
             SettingSystem.instance.nbStars += StarsIncrementation();
             SaveStarsPerLevel();
+            SettingSystem.instance.Save(); //je save le total des stars car OnApplicationQuit pue la merde
 
             isAdsPlaying = false;
         }
